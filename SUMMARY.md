@@ -1,5 +1,9 @@
 # Table of contents
 
-## Ch1 Introduction
+## Group 1
 
-* [1.1 blabla](README.md)
+* [Page 1](README.md)
+
+## Group 2
+
+* [Page 2](group-2/page-2.md)
