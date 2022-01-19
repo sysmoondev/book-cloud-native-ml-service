@@ -2,27 +2,27 @@
 
 * [What is MyProduct?](README.md)
 
-## Guides
+## Ch1 Introduction
 
-* [Creating your first project](guides/creating-your-first-project.md)
-* [Creating your first task](guides/creating-your-first-task.md)
-* [Advanced permissions](guides/advanced-permissions.md)
+* [Creating your first project](ch1-introduction/creating-your-first-project.md)
+* [Creating your first task](ch1-introduction/creating-your-first-task.md)
+* [Advanced permissions](ch1-introduction/advanced-permissions.md)
 
-## Fundamentals
+## Kubernetes
 
-* [Projects](fundamentals/projects.md)
-* [Members](fundamentals/members.md)
-* [Task Lists](fundamentals/task-lists.md)
-* [Tasks](fundamentals/tasks.md)
+* [Projects](kubernetes/projects.md)
+* [Members](kubernetes/members.md)
+* [Task Lists](kubernetes/task-lists.md)
+* [Tasks](kubernetes/tasks.md)
 
-## Use Cases
+## Istio
 
-* [For Designers](use-cases/for-designers/README.md)
-  * [Figma Integration](use-cases/for-designers/figma-integration.md)
-* [For Engineers](use-cases/for-engineers/README.md)
-  * [GitHub Integration](use-cases/for-engineers/github-integration.md)
-* [For Support](use-cases/for-support/README.md)
-  * [Intercom Integration](use-cases/for-support/intercom-integration.md)
+* [For Designers](istio/for-designers/README.md)
+  * [Figma Integration](istio/for-designers/figma-integration.md)
+* [For Engineers](istio/for-engineers/README.md)
+  * [GitHub Integration](istio/for-engineers/github-integration.md)
+* [For Support](istio/for-support/README.md)
+  * [Intercom Integration](istio/for-support/intercom-integration.md)
 
 ## Extras
 
