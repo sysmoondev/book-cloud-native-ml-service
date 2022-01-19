@@ -1,10 +1,8 @@
 # Table of contents
 
-* [book-cloud-native-ml-service](README.md)
-
 ## Ch1 Introduction
 
-* [1.1 blabla](ch1-introduction/1.1-blabla.md)
+* [1.1 blabla](README.md)
 
 ## Ch2 Kubernetes
 
