@@ -58,7 +58,8 @@
 
 * [Github Action](ch4.deploy/github-action/README.md)
   * [Kustomize 패키징](ch4.deploy/github-action/kustomize.md)
-* [CI/CD 파이프라인 구축](ch4.deploy/ci-cd.md)
+* [CI/CD 파이프라인 구축](ch4.deploy/ci-cd/README.md)
+  * [Page 1](ch4.deploy/ci-cd/page-1.md)
 * [ArgoCD Gitops 패턴 적용](ch4.deploy/argocd-gitops.md)
 
 ## CH5.Monitoring
