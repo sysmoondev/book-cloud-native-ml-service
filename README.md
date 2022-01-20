@@ -30,16 +30,16 @@ Here are a couple of examples of succinct overviews from products with really gr
 
 Follow our handy guides to get started on the basics as quickly as possible:
 
-{% content-ref url="ch1-introduction/creating-your-first-project.md" %}
-[creating-your-first-project.md](ch1-introduction/creating-your-first-project.md)
+{% content-ref url="ch1.-introduction/1.1-cloud-native.md" %}
+[1.1-cloud-native.md](ch1.-introduction/1.1-cloud-native.md)
 {% endcontent-ref %}
 
-{% content-ref url="ch1-introduction/creating-your-first-task.md" %}
-[creating-your-first-task.md](ch1-introduction/creating-your-first-task.md)
+{% content-ref url="ch1.-introduction/1.3-msa.md" %}
+[1.3-msa.md](ch1.-introduction/1.3-msa.md)
 {% endcontent-ref %}
 
-{% content-ref url="ch1-introduction/advanced-permissions.md" %}
-[advanced-permissions.md](ch1-introduction/advanced-permissions.md)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
 
 {% hint style="info" %}
@@ -50,20 +50,20 @@ Follow our handy guides to get started on the basics as quickly as possible:
 
 Learn the fundamentals of MyProduct to get a deeper understanding of our main features:
 
-{% content-ref url="kubernetes/projects.md" %}
-[projects.md](kubernetes/projects.md)
+{% content-ref url="ch2.-kubernetes/2.1-kubernetes/" %}
+[2.1-kubernetes](ch2.-kubernetes/2.1-kubernetes/)
 {% endcontent-ref %}
 
-{% content-ref url="kubernetes/members.md" %}
-[members.md](kubernetes/members.md)
+{% content-ref url="ch3.-istio-service-mesh/3.1-istio-service-mesh/" %}
+[3.1-istio-service-mesh](ch3.-istio-service-mesh/3.1-istio-service-mesh/)
 {% endcontent-ref %}
 
-{% content-ref url="kubernetes/task-lists.md" %}
-[task-lists.md](kubernetes/task-lists.md)
+{% content-ref url="ch2.-kubernetes/2.4-ceph/" %}
+[2.4-ceph](ch2.-kubernetes/2.4-ceph/)
 {% endcontent-ref %}
 
-{% content-ref url="kubernetes/tasks.md" %}
-[tasks.md](kubernetes/tasks.md)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
 
 {% hint style="info" %}
