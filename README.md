@@ -54,8 +54,8 @@ Learn the fundamentals of MyProduct to get a deeper understanding of our main fe
 [2.1-kubernetes](ch2.-kubernetes/2.1-kubernetes/)
 {% endcontent-ref %}
 
-{% content-ref url="ch3.-istio-service-mesh/3.1-istio-service-mesh/" %}
-[3.1-istio-service-mesh](ch3.-istio-service-mesh/3.1-istio-service-mesh/)
+{% content-ref url="ch3.-istio-service-mesh/3.1-istio/" %}
+[3.1-istio](ch3.-istio-service-mesh/3.1-istio/)
 {% endcontent-ref %}
 
 {% content-ref url="ch2.-kubernetes/2.4-ceph/" %}

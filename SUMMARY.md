@@ -27,24 +27,16 @@
 
 ## Ch3. Istio Service Mesh
 
-* [3.1 Istio Service Mesh 구축](ch3.-istio-service-mesh/3.1-istio-service-mesh/README.md)
-  * [Istio 설치](ch3.-istio-service-mesh/3.1-istio-service-mesh/istio.md)
-  * [Bookinfo MSA 샘플 애플리케이션](ch3.-istio-service-mesh/3.1-istio-service-mesh/bookinfo-msa.md)
-  * [Istio Traffic Management](ch3.-istio-service-mesh/3.1-istio-service-mesh/istio-traffic-management.md)
-  * [2.2.1 Request Routing](ch3.-istio-service-mesh/3.1-istio-service-mesh/2.2.1-request-routing.md)
-  * [2.2.2 Distributed Tracing](ch3.-istio-service-mesh/3.1-istio-service-mesh/2.2.2-distributed-tracing.md)
-  * [2.2.3 Ingress Gateway](ch3.-istio-service-mesh/3.1-istio-service-mesh/2.2.3-ingress-gateway.md)
-  * [2.2.4 Ingress HTTPS 인증서 적용](ch3.-istio-service-mesh/3.1-istio-service-mesh/2.2.4-ingress-https.md)
-  * [2.2.5 Observability](ch3.-istio-service-mesh/3.1-istio-service-mesh/2.2.5-observability/README.md)
-    * [Service Mesh 모니터링 (Kiali)](ch3.-istio-service-mesh/3.1-istio-service-mesh/2.2.5-observability/service-mesh-kiali.md)
-    * [Open Tracing (Yeager)](ch3.-istio-service-mesh/3.1-istio-service-mesh/2.2.5-observability/open-tracing-yeager.md)
-
-***
-
-* [3.1 gRPC 이용한 MSA 애플리케이션 구축](3.1-grpc-msa/README.md)
-  * [gRPC 프로토콜 소개](3.1-grpc-msa/grpc.md)
-  * [gRPC 위한 Ingress Gateway](3.1-grpc-msa/grpc-ingress-gateway.md)
-  * [RESTful API 지원을 위한 gRPC Gateway 구축](3.1-grpc-msa/restful-api-grpc-gateway.md)
+* [3.1 Istio 설치](ch3.-istio-service-mesh/3.1-istio/README.md)
+  * [Bookinfo MSA 샘플 애플리케이션](ch3.-istio-service-mesh/3.1-istio/bookinfo-msa.md)
+  * [2.2.4 Ingress HTTPS 인증서 적용](ch3.-istio-service-mesh/3.1-istio/2.2.4-ingress-https.md)
+* [3.2 Istio Traffic Management](ch3.-istio-service-mesh/3.2-istio-traffic-management/README.md)
+  * [2.2.3 Ingress Gateway](ch3.-istio-service-mesh/3.2-istio-traffic-management/2.2.3-ingress-gateway.md)
+  * [2.2.1 Request Routing](ch3.-istio-service-mesh/3.2-istio-traffic-management/2.2.1-request-routing.md)
+* [3.2 Observability](ch3.-istio-service-mesh/3.2-observability/README.md)
+  * [Service Mesh 모니터링 (Kiali)](ch3.-istio-service-mesh/3.2-observability/service-mesh-kiali.md)
+  * [Open Tracing (Yeager)](ch3.-istio-service-mesh/3.2-observability/open-tracing-yeager.md)
+  * [Distributed Tracing](ch3.-istio-service-mesh/3.2-observability/distributed-tracing.md)
 
 ## Ch4. Deep Learning Inference Service
 
@@ -55,7 +47,12 @@
 * [3.3 AML(Azure Machine Learning) Service](ch4.-deep-learning-inference-service/3.3-aml-azure-machine-learning-service/README.md)
   * [Azure ARC enabled Kubernetes](ch4.-deep-learning-inference-service/3.3-aml-azure-machine-learning-service/azure-arc-enabled-kubernetes.md)
   * [Azure ML Endpoint](ch4.-deep-learning-inference-service/3.3-aml-azure-machine-learning-service/azure-ml-endpoint.md)
-* [모델 배포](ch4.-deep-learning-inference-service/undefined.md)
+* [3.4 모델 배포](ch4.-deep-learning-inference-service/3.4.md)
+* [3.5 gRPC 이용한 추론 서비스 구축](ch4.-deep-learning-inference-service/3.5-grpc/README.md)
+  * [gRPC 프로토콜 소개](ch4.-deep-learning-inference-service/3.5-grpc/grpc.md)
+  * [gRPC 위한 Ingress Gateway](ch4.-deep-learning-inference-service/3.5-grpc/grpc-ingress-gateway.md)
+  * [RESTful API 지원을 위한 gRPC Gateway 구축](ch4.-deep-learning-inference-service/3.5-grpc/restful-api-grpc-gateway.md)
+  * [gRPC Gateway 샘플 애플리케이션 구축](ch4.-deep-learning-inference-service/3.5-grpc/grpc-gateway.md)
 
 ## CH4.Deploy
 
