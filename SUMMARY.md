@@ -1,6 +1,6 @@
 # Table of contents
 
-* [What is MyProduct?](README.md)
+* [README](README.md)
 
 ## Ch1. Introduction
 
