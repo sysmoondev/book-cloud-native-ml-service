@@ -42,8 +42,7 @@
 
 * [Prerequisite for Deep Learning](ch4.-deep-learning-inference-service/prerequisite-for-deep-learning/README.md)
   * [Install Pytorch](ch4.-deep-learning-inference-service/prerequisite-for-deep-learning/install-pytorch.md)
-* [3.1 Detectron2 소개](ch4.-deep-learning-inference-service/3.1-detectron2/README.md)
-  * [Figma Integration](ch4.-deep-learning-inference-service/3.1-detectron2/figma-integration.md)
+* [3.1 Introduction Detectron2](ch4.-deep-learning-inference-service/3.1-detectron2.md)
 * [3.2 Triton 이용한 Inference 서비스](ch4.-deep-learning-inference-service/3.2-triton-inference/README.md)
   * [GitHub Integration](ch4.-deep-learning-inference-service/3.2-triton-inference/github-integration.md)
 * [3.3 AML(Azure Machine Learning) Service](ch4.-deep-learning-inference-service/3.3-aml-azure-machine-learning-service/README.md)
