@@ -1,4 +1,4 @@
-# pytorch 설치
+# Install Pytorch
 
 
 
@@ -103,3 +103,9 @@ tensor([[0.9369, 0.2089, 0.2880],
         [0.5019, 0.1360, 0.3487]])
 >>>
 ```
+
+
+
+## Ref
+
+* [pytroch 개발환경 설정](https://blog.daum.net/geoscience/1565)

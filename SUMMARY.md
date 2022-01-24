@@ -43,27 +43,26 @@
 * [Prerequisite for Deep Learning](ch4.-deep-learning-inference-service/prerequisite-for-deep-learning/README.md)
   * [Install Pytorch](ch4.-deep-learning-inference-service/prerequisite-for-deep-learning/install-pytorch.md)
 * [3.1 Introduction Detectron2](ch4.-deep-learning-inference-service/3.1-detectron2.md)
-* [3.2 Triton 이용한 Inference 서비스](ch4.-deep-learning-inference-service/3.2-triton-inference/README.md)
+* [3.2 Triton](ch4.-deep-learning-inference-service/3.2-triton-inference/README.md)
   * [GitHub Integration](ch4.-deep-learning-inference-service/3.2-triton-inference/github-integration.md)
 * [3.3 AML(Azure Machine Learning) Service](ch4.-deep-learning-inference-service/3.3-aml-azure-machine-learning-service/README.md)
   * [Azure ARC enabled Kubernetes](ch4.-deep-learning-inference-service/3.3-aml-azure-machine-learning-service/azure-arc-enabled-kubernetes.md)
   * [Azure ML Endpoint](ch4.-deep-learning-inference-service/3.3-aml-azure-machine-learning-service/azure-ml-endpoint.md)
-* [3.4 모델 배포](ch4.-deep-learning-inference-service/3.4.md)
-* [3.5 gRPC 이용한 추론 서비스 구축](ch4.-deep-learning-inference-service/3.5-grpc/README.md)
-  * [gRPC 프로토콜 소개](ch4.-deep-learning-inference-service/3.5-grpc/grpc.md)
-  * [gRPC 위한 Ingress Gateway](ch4.-deep-learning-inference-service/3.5-grpc/grpc-ingress-gateway.md)
-  * [RESTful API 지원을 위한 gRPC Gateway 구축](ch4.-deep-learning-inference-service/3.5-grpc/restful-api-grpc-gateway.md)
-  * [gRPC Gateway 샘플 애플리케이션 구축](ch4.-deep-learning-inference-service/3.5-grpc/grpc-gateway.md)
+* [3.4 Deploy Model](ch4.-deep-learning-inference-service/3.4.md)
+* [3.5 Inference Service with gRPC](ch4.-deep-learning-inference-service/3.5-grpc/README.md)
+  * [Introduction of gRPC Protocol](ch4.-deep-learning-inference-service/3.5-grpc/grpc.md)
+  * [Ingress Gateway for gRPC](ch4.-deep-learning-inference-service/3.5-grpc/grpc-ingress-gateway.md)
+  * [gRPC Gateway for RESTAPI](ch4.-deep-learning-inference-service/3.5-grpc/restful-api-grpc-gateway.md)
 
-## CH4.Deploy
+## CH5.Deploy
 
-* [Github Action](ch4.deploy/github-action/README.md)
-  * [Kustomize 패키징](ch4.deploy/github-action/kustomize.md)
-* [CI/CD 파이프라인 구축](ch4.deploy/ci-cd/README.md)
-  * [Page 1](ch4.deploy/ci-cd/page-1.md)
-* [ArgoCD Gitops 패턴 적용](ch4.deploy/argocd-gitops.md)
+* [Github Action](ch5.deploy/github-action/README.md)
+  * [Kustomize 패키징](ch5.deploy/github-action/kustomize.md)
+* [CI/CD Pipelines](ch5.deploy/ci-cd/README.md)
+  * [Page 1](ch5.deploy/ci-cd/page-1.md)
+* [ArgoCD Gitops Pattern](ch5.deploy/argocd-gitops.md)
 
-## CH5.Monitoring
+## CH6.Monitoring
 
-* [Prometheus & Grafana 모니터링 시스템](ch5.monitoring/prometheus-and-grafana.md)
-* [Datadog 모니터링 시스템](ch5.monitoring/datadog.md)
+* [Prometheus & Grafana](ch6.monitoring/prometheus-and-grafana.md)
+* [Datadog Monitoring System](ch6.monitoring/datadog.md)
