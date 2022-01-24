@@ -40,8 +40,8 @@
 
 ## Ch4. Deep Learning Inference Service
 
-* [딥러닝 개발환경 구축](ch4.-deep-learning-inference-service/undefined/README.md)
-  * [pytorch 설치](ch4.-deep-learning-inference-service/undefined/pytorch.md)
+* [Prerequisite for Deep Learning](ch4.-deep-learning-inference-service/prerequisite-for-deep-learning/README.md)
+  * [Install Pytorch](ch4.-deep-learning-inference-service/prerequisite-for-deep-learning/install-pytorch.md)
 * [3.1 Detectron2 소개](ch4.-deep-learning-inference-service/3.1-detectron2/README.md)
   * [Figma Integration](ch4.-deep-learning-inference-service/3.1-detectron2/figma-integration.md)
 * [3.2 Triton 이용한 Inference 서비스](ch4.-deep-learning-inference-service/3.2-triton-inference/README.md)
