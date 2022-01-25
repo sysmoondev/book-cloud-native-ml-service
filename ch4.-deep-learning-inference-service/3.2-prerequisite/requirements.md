@@ -1,12 +1,20 @@
-# Install Pytorch
+# Requirements
+
+## 사전준비 사항
+
+Detectron2 설치에 필요한 [사전준비](https://detectron2.readthedocs.io/en/latest/tutorials/install.html#install-pre-built-detectron2-linux-only) 요구사항은 다음과 같습니다.
+
+* Linux or macOS with Python ≥ 3.6
+* PyTorch ≥ 1.8 and [torchvision](https://github.com/pytorch/vision/) that matches the PyTorch installation. Install them together at [pytorch.org](https://pytorch.org) to make sure of this
+* OpenCV is optional but needed by demo and visualization
+
+
 
 
 
 ## 파이썬 설치 (Anaconda)
 
-
-
-### MacOS 설치&#x20;
+### MacOS 설치
 
 blabla
 
@@ -27,19 +35,17 @@ sh Miniconda3-latest-Linux-x86_64.sh
 
 > You may have to open a new terminal or re-source your `~/.bashrc` to get access to the `conda` command.
 
-
-
 ## Pytorch 설치
 
 ### MacOS 설치
 
 pytorch 는 멀티 OS (Linux, Window, Mac) 환경에서 설치할 수 있습니다. [pytorch](https://pytorch.org) 공식 홈페이지에서 제공하는 [Install Guide](https://pytorch.org/get-started/locally/) 통해서 설치를 시작합니다.
 
-Detectron2 의 경우 pytorch >= 1.8 이상을 지원하기 때문에 LTS(1.8.2) 사용이 가능합니다. 여기서는 가장 최신 안정 버전인 Stable (1.10.1) 버전을 선택합니다. 그 외에 필요한 환경은 각 컴퓨팅 환경과 파이선 패키지의 기호에 맞게 선택하여 설치를 진행합니다.&#x20;
+Detectron2 의 경우 pytorch >= 1.8 이상을 지원하기 때문에 LTS(1.8.2) 사용이 가능합니다. 여기서는 가장 최신 안정 버전인 Stable (1.10.1) 버전을 선택합니다. 그 외에 필요한 환경은 각 컴퓨팅 환경과 파이선 패키지의 기호에 맞게 선택하여 설치를 진행합니다.
 
 * Pytorch Build: Stable (1.10.1)
 * OS: Mac
-* Package:&#x20;
+* Package:
 * Language: Python
 * Compute Platform: CPU
 
@@ -124,8 +130,6 @@ tensor([[0.9369, 0.2089, 0.2880],
         [0.5019, 0.1360, 0.3487]])
 >>>
 ```
-
-
 
 ### Pytorch Ubuntu 설치
 
