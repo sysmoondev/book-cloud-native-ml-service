@@ -2,15 +2,36 @@
 
 
 
-## 파이썬 설치
-
-It is recommended that you use Python 3.7 or greater, which can be installed either through the Anaconda package manager (see [below](https://pytorch.org/get-started/locally/#anaconda)), [Homebrew](https://brew.sh), or the [Python website](https://www.python.org/downloads/mac-osx/).
+## 파이썬 설치 (Anaconda)
 
 
 
-## 아나콘다 설치
+### MacOS 설치&#x20;
 
-## Pytorch MacOS 설치
+blabla
+
+### 우분투 설치
+
+install the PyTorch binaries, you will need to use one of two supported package managers: [Anaconda](https://www.anaconda.com/download/#linux) or [pip](https://pypi.org/project/pip/). Anaconda is the recommended package manager as it will provide you all of the PyTorch dependencies in one, sandboxed install, including Python.
+
+**Anaconda**
+
+To install Anaconda, you will use the [command-line installer](https://www.anaconda.com/download/#linux). Right-click on the 64-bit installer link, select `Copy Link Location`, and then use the following commands:
+
+```
+# The version of Anaconda may be different depending on when you are installing`
+curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh Miniconda3-latest-Linux-x86_64.sh
+# and follow the prompts. The defaults are generally good.`
+```
+
+> You may have to open a new terminal or re-source your `~/.bashrc` to get access to the `conda` command.
+
+
+
+## Pytorch 설치
+
+### MacOS 설치
 
 pytorch 는 멀티 OS (Linux, Window, Mac) 환경에서 설치할 수 있습니다. [pytorch](https://pytorch.org) 공식 홈페이지에서 제공하는 [Install Guide](https://pytorch.org/get-started/locally/) 통해서 설치를 시작합니다.
 
@@ -70,7 +91,7 @@ The following packages will be UPDATED:
   conda                               4.10.1-py38hecd8cb5_1 --> 4.11.0-py38hecd8cb5_0
 
 
-Proceed ([y]/n)? ㅛy
+Proceed ([y]/n)? y
 
 
 Downloading and Extracting Packages
@@ -106,6 +127,14 @@ tensor([[0.9369, 0.2089, 0.2880],
 
 
 
-## Ref
+### Pytorch Ubuntu 설치
+
+![](../../.gitbook/assets/pytorch\_support\_ubuntu2.png)
+
+pip 패키지 도구를 이용하여 pytroch 를 설치합니다.
+
+```
+pip3 install torch==1.8.2+cu111 torchvision==0.9.2+cu111 torchaudio==0.8.2 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
+```
 
 * [pytroch 개발환경 설정](https://blog.daum.net/geoscience/1565)
