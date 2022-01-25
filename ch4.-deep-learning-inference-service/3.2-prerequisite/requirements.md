@@ -160,3 +160,4 @@ pip install opencv-python
 ```
 
 * [pytroch 개발환경 설정](https://blog.daum.net/geoscience/1565)
+* [pip issue](https://river.me/blog/change-pip-version/)

@@ -14,6 +14,15 @@ Detectron2 Github 을 통해 소스를 클론하고, 아래와 같이 빌드 작
 
 gcc & g++ ≥ 5.4 are required. [ninja](https://ninja-build.org) is optional but recommended for faster build. After having them, run:
 
+#### ninja install
+
+```
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 2> /dev/null
+brew install ninja
+```
+
+#### install detectron2
+
 ```
 python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
 # (add --user if you don't have permission)
@@ -51,3 +60,4 @@ pip3 install detectron2 -f \
 ## Ref
 
 * [https://detectron2.readthedocs.io/en/latest/tutorials/install.html#install-pre-built-detectron2-linux-only](https://detectron2.readthedocs.io/en/latest/tutorials/install.html#install-pre-built-detectron2-linux-only)
+* [install detectron on mac cpu mode](https://knowing.net/posts/2021/11/install-detectron2-draft/)
