@@ -22,6 +22,16 @@ blabla
 
 install the PyTorch binaries, you will need to use one of two supported package managers: [Anaconda](https://www.anaconda.com/download/#linux) or [pip](https://pypi.org/project/pip/). Anaconda is the recommended package manager as it will provide you all of the PyTorch dependencies in one, sandboxed install, including Python.
 
+#### pip
+
+
+
+python3.8-dev 설치
+
+```
+sudo apt-get install python3.8-dev
+```
+
 **Anaconda**
 
 To install Anaconda, you will use the [command-line installer](https://www.anaconda.com/download/#linux). Right-click on the 64-bit installer link, select `Copy Link Location`, and then use the following commands:
@@ -139,6 +149,14 @@ pip 패키지 도구를 이용하여 pytroch 를 설치합니다.
 
 ```
 pip3 install torch==1.8.2+cu111 torchvision==0.9.2+cu111 torchaudio==0.8.2 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
+```
+
+
+
+## OpenCV 설치
+
+```
+pip install opencv-python
 ```
 
 * [pytroch 개발환경 설정](https://blog.daum.net/geoscience/1565)

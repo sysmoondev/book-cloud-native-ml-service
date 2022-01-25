@@ -1,10 +1,6 @@
-# Quick Start
+# Inference Demo with Pre-trained Models
 
 이번 장에서는 Detectron2 에서 제공하는 built-in command-line tools 이용하여 미리 학습된 모델을 이용하여 추론하는 방법과, 사용자가 가진 Custom Data 를 이용하여 새롭게 학습(Transfer Learning) 하고, 평가하는 방법에 대해 소개합니다.
-
-
-
-
 
 ## Pre-trained Model 추론 데모
 
@@ -34,9 +30,13 @@ Detectron2는 이미 학습된 모델을 [model zoo](https://github.com/facebook
 
 ```
 cd demo/
+
+# download sample image for inferencing
+wget http://images.cocodataset.org/val2017/000000439715.jpg -q -O input.jpg
+
+# inference
 python demo.py --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml \
-  --input input1.jpg input2.jpg \
-  [--other-options]
+  --input input.jpg \
   --opts MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
 ```
 
