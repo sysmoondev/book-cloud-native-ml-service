@@ -81,3 +81,167 @@ MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/13784
 
 ## Training & Evaluation in Command Line
 
+Detecton2는 학습에 필요한 여러 config 환경설정을 이용하여 쉽게 학습 가능하도록 2개의 파이썬 스크립트를 제공합니다. 제공되는 파이썬 학습코드를 이용하여 사용자의 용도에 맞게 커스터마이징 하여 사용 가능합니다.
+
+* tools/plain\__train\_net.py_
+* tools/train\_net.py
+
+plain_train_net.py 스크립트는 plain\_net.py 에 비해 더 적은 기능들로 추상화 되어있기 때문에 사용자가 커스터마이징하여 학습에 필요한 추가적인 기능을 확장하기 더 용이합니다.
+
+### Datasets 준비
+
+train\_net.py 스크립트를 이용하여 학습을 시작하기 전에 학습에 필요한 COCO 형식의 [Datasets](https://github.com/facebookresearch/detectron2/blob/main/datasets/README.md) 준비가 필요합니다. Detectron2 는 Built-in Datasets 을 제공하고 있고, 환경변수(DETECTRON2\_DATASETS)에 지정된 경로명에 있는 Datasets 을 이용하여 학습데이터로 활용합니다. Datasets 파일 디렉토리 구조는 다음과 같습니다.
+
+```
+$DETECTRON2_DATASETS/
+  coco/
+  lvis/
+  cityscapes/
+  VOC20{07,12}/
+```
+
+기본적으로 Datasets 경로명을 환경변수로 지정하지 않으면 train\_net.py 스크립트는 현재 디렉토리 기준으로 ./datasets 경로명을 참조합니다.
+
+model zoo 에서 제공하는 model 과 config 는 builtin datasets 을 사용하기 위해 DETECTRON2\_DATASETS 환경변수를 이용하여 dataset 경로명을 참조하기 때문에 학습에 필요한 데이터를 해당 경로명에 저장하여 관리가 필요합니다.
+
+#### Buitin Dataset 폴더 구조
+
+model zoo 에서 제공하는 이미 학습된 모델 Instance Segmentaion 을 이용하여 COCO Instance/keypoint detection datasets 으로 Transfer Learning 하는 과정을 소개합니다.
+
+$DETECTRON\_DATASET 경로명에 아래와 같은 폴더 구조로 데이터 저장이 필요합니다.
+
+```
+coco/
+  annotations/
+    instances_{train,val}2017.json
+    person_keypoints_{train,val}2017.json
+  {train,val}2017/
+    # image files that are mentioned in the corresponding json
+```
+
+annotaions 폴더에는 학습(train)/검증(val) 위한 실제 이미지 데이터에 대한 메타정보를 포함하고 있고, {train,val}2017/ 폴더에는 실제 학습할 이미지 데이터를 포함하고 있습니다.
+
+
+
+#### COCO Instance/keypoint  Datasets 다운로드
+
+\
+[COCO Site](https://cocodataset.org/#download) 홈페이지에 접속하여 annotations(2017 Train/Val annotations), Images(2017 Train Images) 2개 Datasets 을 다운로드 합니다.
+
+```
+# Annotaions
+wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+unzip annotations_trainval2017.zip
+
+# Train
+http://images.cocodataset.org/zips/train2017.zip
+unzip train2017.zip
+```
+
+압축을 풀면 다음과 같은 데이터를 확인할 수 있습니다.
+
+* &#x20;Annotations
+
+```
+# Annotations
+vpsdev@bd-k8s-vps-dev-worker05:~/book/cocodataset$ tree annotations/
+annotations/
+├── captions_train2017.json
+├── captions_val2017.json
+├── instances_train2017.json
+├── instances_val2017.json
+├── person_keypoints_train2017.json
+└── person_keypoints_val2017.json
+```
+
+* train2017&#x20;
+
+```
+# Train
+vpsdev@bd-k8s-vps-dev-worker05:~/book/cocodataset$ tree train2017
+├── 000000581909.jpg
+├── 000000581913.jpg
+├── 000000581921.jpg
+└── 000000581929.jpg
+
+0 directories, 118287 files
+```
+
+위 압축을 풀은 데이터를 model zoo 에서 읽어서 학습할 수 있도록 $DETECTRON\_DATASETS 환경변수 경로명에 아래과 같은 형태로 복사/이동 합니다.
+
+```
+detectron2/datasets/coco/
+├── annotations
+    ├── instances_train2017.json
+    ├── instances_val2017_100.json
+    ├── person_keypoints_train2017.json
+    └── person_keypoints_val2017_100.json
+├── train2017
+    ├── 000000581909.jpg
+    ├── 000000581913.jpg
+    ├── 000000581921.jpg
+    └── 000000581929.jpg
+└── val2017
+    ├── 000000546964.jpg
+    ├── 000000550797.jpg
+    ├── 000000554291.jpg
+    ├── 000000556498.jpg
+    └── 000000570688.jpg
+```
+
+
+
+### Training
+
+Detectron2 에서 builint datasets 으로 사용할 경로명을 $DETECTRON\_DATASETS 환경변수를 통해 설정합니다. 현재 저자의 경우 instance/keypoint dataset 다운로드 받은 후, detectron2/datasets/coco/ 에 저장/관리하고 있으므로 아래와 같은 전체 경로명으로 설정합니다.
+
+```
+export DETECTRON_DATASETS=/home/vpsdev/book/detectron2/datasets
+```
+
+이후 train\_net.py 파이썬 스크립트를 통해 학습을 시작합니다.
+
+```
+cd tools/
+./train_net.py --num-gpus 8 \
+  --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml
+
+```
+
+만약 GPU 리소스가 부족한 환경이라면 [파라미터](https://arxiv.org/abs/1706.02677) 조정을 통해 아래와 같이 GPU 1개와 Batch Job 스케쥴링 정책을 수정하여 환경에 맞게 학습을 진행합니다.
+
+```
+cd demo/
+./train_net.py \
+  --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
+  --num-gpus 1 SOLVER.IMS_PER_BATCH 2 SOLVER.BASE_LR 0.0025
+```
+
+train\_net.py 파라미터&#x20;
+
+* \--config-file: model zoo 에 이미 학습된 모델의 정보가 담긴 yaml 파일의 경로명 설정 (../configs/COCO-InstanceSegmentation/mask\_rcnn\_R\_50\_FPN\_1x.yaml)
+* \--num-gpus: 학습에 사용된 GPU 개수, SOVER Batch 개수, SOLVER LR 값&#x20;
+
+Training 실행 결과는 다음과 같이 확인 가능합니다.&#x20;
+
+```
+[01/28 05:50:20 d2.utils.events]:  eta: 3:38:57  iter: 46419  total_loss: 0.9065  loss_cls: 0.2416  loss_box_reg: 0.2231  loss_mask: 0.2867  loss_rpn_cls: 0.03078  loss_rpn_loc: 0.05532  time: 0.2958  data_time: 0.0030  lr: 0.0025  max_mem: 2890M
+[01/28 05:50:26 d2.utils.events]:  eta: 3:38:58  iter: 46439  total_loss: 1.126  loss_cls: 0.3322  loss_box_reg: 0.3052  loss_mask: 0.3295  loss_rpn_cls: 0.06258  loss_rpn_loc: 0.08123  time: 0.2958  data_time: 0.0033  lr: 0.0025  max_mem: 2890M
+[01/28 05:50:31 d2.utils.events]:  eta: 3:38:45  iter: 46459  total_loss: 1.14  loss_cls: 0.3257  loss_box_reg: 0.2855  loss_mask: 0.3244  loss_rpn_cls: 0.07231  loss_rpn_loc: 0.08013  time: 0.2958  data_time: 0.0033  lr: 0.0025  max_mem: 2890M
+[01/28 05:50:37 d2.utils.events]:  eta: 3:38:46  iter: 46479  total_loss: 1.008  loss_cls: 0.2984  loss_box_reg: 0.2428  loss_mask: 0.32  loss_rpn_cls: 0.05181  loss_rpn_loc: 0.07054  time: 0.2958  data_time: 0.0033  lr: 0.0025  max_mem: 2890M
+[01/28 05:50:43 d2.utils.events]:  eta: 3:39:02  iter: 46499  total_loss: 1.225  loss_cls: 0.327  loss_box_reg: 0.313  loss_mask: 0.3425  loss_rpn_cls: 0.07357  loss_rpn_loc: 0.1112  time: 0.2958  data_time: 0.0036  lr: 0.0025  max_mem: 2890M
+[01/28 05:50:49 d2.utils.events]:  eta: 3:38:38  iter: 46519  total_loss: 0.9217  loss_cls: 0.2329  loss_box_reg: 0.2465  loss_mask: 0.316  loss_rpn_cls: 0.06321  loss_rpn_loc: 0.09226  time: 0.2958  data_time: 0.0035  lr: 0.0025  max_mem: 2890M
+[01/28 05:50:55 d2.utils.events]:  eta: 3:38:32  iter: 46539  total_loss: 0.9715  loss_cls: 0.2674  loss_box_reg: 0.2509  loss_mask: 0.2951  loss_rpn_cls: 0.03995  loss_rpn_loc: 0.05087  time: 0.2958  data_time: 0.0033  lr: 0.0025  max_mem: 2890M
+[01/28 05:51:01 d2.utils.events]:  eta: 3:38:26  iter: 46559  total_loss: 1.064  loss_cls: 0.2992  loss_box_reg: 0.2865  loss_mask: 0.319  loss_rpn_cls: 0.05752  loss_rpn_loc: 0.08471  time: 0.2958  data_time: 0.0032  lr: 0.0025  max_mem: 2890M
+```
+
+### Evaluation
+
+학습이 끝난 이후, 생성된 모델 (/path/to/checkpoint\_file) 에 대해 Weight 를 이하여 평가 합니다.
+
+```
+./train_net.py \
+  --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
+  --eval-only MODEL.WEIGHTS /path/to/checkpoint_file
+```
+
