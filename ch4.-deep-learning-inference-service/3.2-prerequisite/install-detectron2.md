@@ -36,7 +36,14 @@ CC=clang CXX=clang++ ARCHFLAGS="-arch x86_64" python -m pip install ...
 ```
 
 To **rebuild** detectron2 that’s built from a local clone, use `rm -rf build/ **/*.so` to clean the old build first. You often need to rebuild detectron2 after reinstalling PyTorch.\
-\
+
+
+{% hint style="info" %}
+python setuptools==59.5.0 설치해야 train\_net.py 빌드과정에서 에러 발생하지 않음
+
+python -m pip install setuptools==59.5.0
+{% endhint %}
+
 
 
 ## Pre-Built 설치방법 (리눅스만 지원)
@@ -51,8 +58,6 @@ pip3 install detectron2 -f \
 ```
 
 {% hint style="info" %}
-
-
 1. The pre-built packages have to be used with corresponding version of CUDA and the official package of PyTorch. Otherwise, please build detectron2 from source.
 2. New packages are released every few months. Therefore, packages may not contain latest features in the main branch and may not be compatible with the main branch of a research project that uses detectron2 (e.g. those in [projects](https://github.com/facebookresearch/detectron2/blob/main/projects)).
 {% endhint %}
