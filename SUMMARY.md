@@ -46,6 +46,7 @@
   * [Install Detectron2](ch4.-deep-learning-inference-service/3.2-prerequisite/install-detectron2.md)
 * [Getting Start](ch4.-deep-learning-inference-service/getting-start/README.md)
   * [Inference Demo with Pre-trained Models](ch4.-deep-learning-inference-service/getting-start/inference-demo-with-pre-trained-models.md)
+  * [Training & Evaluation](ch4.-deep-learning-inference-service/getting-start/training-and-evaluation.md)
   * [Train & Evaluation](ch4.-deep-learning-inference-service/getting-start/train-and-evaluation.md)
 * [3.2 Triton](ch4.-deep-learning-inference-service/3.2-triton-inference/README.md)
   * [GitHub Integration](ch4.-deep-learning-inference-service/3.2-triton-inference/github-integration.md)
