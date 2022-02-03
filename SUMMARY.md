@@ -19,7 +19,7 @@
   * [Config Map](ch2.-kubernetes/2.1-kubernetes/config-map.md)
   * [오브젝트와 컨트롤러](ch2.-kubernetes/2.1-kubernetes/undefined-3.md)
 * [2.2 쿠버네티스 시작하기](ch2.-kubernetes/2.2/README.md)
-  * [2.2.1 On-Premise 환경 Kubernetes 구축](ch2.-kubernetes/2.2/2.2.1-on-premise-kubernetes.md)
+  * [2.2.1 다양한 환경에서 Kubernetes 구축하기](ch2.-kubernetes/2.2/2.2.1-on-premise-kubernetes.md)
   * [2.1.2 Azure Public Cloud 환경 쿠버네티스(AKS) 구축](ch2.-kubernetes/2.2/2.1.2-azure-public-cloud-aks.md)
 * [2.3 쿠버네티스 활용하기](ch2.-kubernetes/2.3/README.md)
   * [2.3.1 helm vs kustomize](ch2.-kubernetes/2.3/2.3.1-helm-vs-kustomize.md)
