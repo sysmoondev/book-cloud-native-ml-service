@@ -11,9 +11,10 @@
 
 * [2.1 쿠버네티스 소개](ch2.-kubernetes/2.1-kubernetes/README.md)
   * [2.1.1 쿠버네티스 탄생 배경](ch2.-kubernetes/2.1-kubernetes/2.1.1.md)
+  * [2.1.2 쿠버네티스 구조](ch2.-kubernetes/2.1-kubernetes/undefined-1.md)
+  * [2.1.3 쿠버네티스 네트워크](ch2.-kubernetes/2.1-kubernetes/2.1.3.md)
   * [2.1.1 컨테이너 소개](ch2.-kubernetes/2.1-kubernetes/2.1.1-1.md)
   * [쿠버네티스 소개](ch2.-kubernetes/2.1-kubernetes/undefined.md)
-  * [쿠버네티스 구조](ch2.-kubernetes/2.1-kubernetes/undefined-1.md)
   * [레이블과 셀렉터 & 어노테이션](ch2.-kubernetes/2.1-kubernetes/and.md)
   * [인증과 권한](ch2.-kubernetes/2.1-kubernetes/undefined-2.md)
   * [Secret](ch2.-kubernetes/2.1-kubernetes/secret.md)
