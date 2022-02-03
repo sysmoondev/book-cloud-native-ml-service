@@ -25,6 +25,8 @@
   * [2.2.2 application 배포하기](ch2.-kubernetes/2.2/2.1.2-azure-public-cloud-aks.md)
 * [2.3 쿠버네티스 활용하기](ch2.-kubernetes/2.3/README.md)
   * [2.3.1 helm vs kustomize](ch2.-kubernetes/2.3/2.3.1-helm-vs-kustomize.md)
+  * [2.3.2 ingress controller](ch2.-kubernetes/2.3/2.3.2-ingress-controller.md)
+  * [2.3.3 node pool 구분하기](ch2.-kubernetes/2.3/2.3.3-node-pool.md)
 * [2.3 Container Registry (ACR)](ch2.-kubernetes/2.3-container-registry-acr.md)
 * [2.4 Ceph 클러스터 구축](ch2.-kubernetes/2.4-ceph/README.md)
   * [Rook 오케스트레이션을 이용한 Ceph 구축](ch2.-kubernetes/2.4-ceph/rook-ceph.md)
