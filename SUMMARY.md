@@ -9,7 +9,7 @@
 
 ## Ch2. Kubernetes
 
-* [2.1 Kubernetes 소개](ch2.-kubernetes/2.1-kubernetes/README.md)
+* [2.1 쿠버네티스 소개](ch2.-kubernetes/2.1-kubernetes/README.md)
   * [2.1.1 컨테이너 소개](ch2.-kubernetes/2.1-kubernetes/2.1.1.md)
   * [쿠버네티스 소개](ch2.-kubernetes/2.1-kubernetes/undefined.md)
   * [쿠버네티스 구조](ch2.-kubernetes/2.1-kubernetes/undefined-1.md)
@@ -18,9 +18,11 @@
   * [Secret](ch2.-kubernetes/2.1-kubernetes/secret.md)
   * [Config Map](ch2.-kubernetes/2.1-kubernetes/config-map.md)
   * [오브젝트와 컨트롤러](ch2.-kubernetes/2.1-kubernetes/undefined-3.md)
-* [2.2 쿠버네티스 구축](ch2.-kubernetes/2.2/README.md)
+* [2.2 쿠버네티스 시작하기](ch2.-kubernetes/2.2/README.md)
   * [2.2.1 On-Premise 환경 Kubernetes 구축](ch2.-kubernetes/2.2/2.2.1-on-premise-kubernetes.md)
   * [2.1.2 Azure Public Cloud 환경 쿠버네티스(AKS) 구축](ch2.-kubernetes/2.2/2.1.2-azure-public-cloud-aks.md)
+* [2.3 쿠버네티스 활용하기](ch2.-kubernetes/2.3/README.md)
+  * [2.3.1 helm vs kustomize](ch2.-kubernetes/2.3/2.3.1-helm-vs-kustomize.md)
 * [2.3 Container Registry (ACR)](ch2.-kubernetes/2.3-container-registry-acr.md)
 * [2.4 Ceph 클러스터 구축](ch2.-kubernetes/2.4-ceph/README.md)
   * [Rook 오케스트레이션을 이용한 Ceph 구축](ch2.-kubernetes/2.4-ceph/rook-ceph.md)
