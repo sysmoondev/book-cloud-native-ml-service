@@ -10,6 +10,7 @@
 ## Ch2. Kubernetes
 
 * [2.1 쿠버네티스 소개](ch2.-kubernetes/2.1-kubernetes/README.md)
+  * [Page 2](ch2.-kubernetes/2.1-kubernetes/page-2.md)
   * [2.1.1 컨테이너 소개](ch2.-kubernetes/2.1-kubernetes/2.1.1.md)
   * [쿠버네티스 소개](ch2.-kubernetes/2.1-kubernetes/undefined.md)
   * [쿠버네티스 구조](ch2.-kubernetes/2.1-kubernetes/undefined-1.md)
@@ -20,7 +21,7 @@
   * [오브젝트와 컨트롤러](ch2.-kubernetes/2.1-kubernetes/undefined-3.md)
 * [2.2 쿠버네티스 시작하기](ch2.-kubernetes/2.2/README.md)
   * [2.2.1 다양한 환경에서 Kubernetes 구축하기](ch2.-kubernetes/2.2/2.2.1-on-premise-kubernetes.md)
-  * [2.1.2 Azure Public Cloud 환경 쿠버네티스(AKS) 구축](ch2.-kubernetes/2.2/2.1.2-azure-public-cloud-aks.md)
+  * [2.2.2 application 배포하기](ch2.-kubernetes/2.2/2.1.2-azure-public-cloud-aks.md)
 * [2.3 쿠버네티스 활용하기](ch2.-kubernetes/2.3/README.md)
   * [2.3.1 helm vs kustomize](ch2.-kubernetes/2.3/2.3.1-helm-vs-kustomize.md)
 * [2.3 Container Registry (ACR)](ch2.-kubernetes/2.3-container-registry-acr.md)
