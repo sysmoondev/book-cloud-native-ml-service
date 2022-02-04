@@ -46,13 +46,14 @@
 
 ## Ch4. Deep Learning Inference Service
 
-* [3.1 Introduction Detectron2](ch4.-deep-learning-inference-service/3.1-detectron2.md)
-* [3.2 Installation](ch4.-deep-learning-inference-service/3.2-prerequisite/README.md)
-  * [Requirements](ch4.-deep-learning-inference-service/3.2-prerequisite/requirements.md)
-  * [Install Detectron2](ch4.-deep-learning-inference-service/3.2-prerequisite/install-detectron2.md)
-* [Getting Start](ch4.-deep-learning-inference-service/getting-start/README.md)
-  * [Inference Demo with Pre-trained Models](ch4.-deep-learning-inference-service/getting-start/inference-demo-with-pre-trained-models.md)
-  * [Training & Evaluation](ch4.-deep-learning-inference-service/getting-start/training-and-evaluation.md)
+* [3.1 Detectron2](ch4.-deep-learning-inference-service/3.1-detectron2/README.md)
+  * [Installation](ch4.-deep-learning-inference-service/3.1-detectron2/3.2-prerequisite/README.md)
+    * [Requirements](ch4.-deep-learning-inference-service/3.1-detectron2/3.2-prerequisite/requirements.md)
+    * [Install Detectron2](ch4.-deep-learning-inference-service/3.1-detectron2/3.2-prerequisite/install-detectron2.md)
+  * [Getting Start](ch4.-deep-learning-inference-service/3.1-detectron2/getting-start/README.md)
+    * [Inference Demo with Pre-trained Models](ch4.-deep-learning-inference-service/3.1-detectron2/getting-start/inference-demo-with-pre-trained-models.md)
+    * [Training & Evaluation](ch4.-deep-learning-inference-service/3.1-detectron2/getting-start/training-and-evaluation.md)
+    * [Detectron2 API in Your Code](ch4.-deep-learning-inference-service/3.1-detectron2/getting-start/detectron2-api-in-your-code.md)
 * [3.2 Triton](ch4.-deep-learning-inference-service/3.2-triton-inference/README.md)
   * [GitHub Integration](ch4.-deep-learning-inference-service/3.2-triton-inference/github-integration.md)
 * [3.3 AML(Azure Machine Learning) Service](ch4.-deep-learning-inference-service/3.3-aml-azure-machine-learning-service/README.md)

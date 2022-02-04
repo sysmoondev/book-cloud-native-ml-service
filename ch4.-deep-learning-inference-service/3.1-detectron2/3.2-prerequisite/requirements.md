@@ -8,10 +8,6 @@ Detectron2 설치에 필요한 [사전준비](https://detectron2.readthedocs.io/
 * PyTorch ≥ 1.8 and [torchvision](https://github.com/pytorch/vision/) that matches the PyTorch installation. Install them together at [pytorch.org](https://pytorch.org) to make sure of this
 * OpenCV is optional but needed by demo and visualization
 
-
-
-
-
 ## 파이썬 설치 (Anaconda)
 
 ### MacOS 설치
@@ -23,8 +19,6 @@ blabla
 install the PyTorch binaries, you will need to use one of two supported package managers: [Anaconda](https://www.anaconda.com/download/#linux) or [pip](https://pypi.org/project/pip/). Anaconda is the recommended package manager as it will provide you all of the PyTorch dependencies in one, sandboxed install, including Python.
 
 #### pip
-
-
 
 python3.8-dev 설치
 
@@ -59,7 +53,7 @@ Detectron2 의 경우 pytorch >= 1.8 이상을 지원하기 때문에 LTS(1.8.2)
 * Language: Python
 * Compute Platform: CPU
 
-![](../../.gitbook/assets/pytorch\_support\_program.png)
+![](../../../.gitbook/assets/pytorch\_support\_program.png)
 
 위와 같이 각자 개발환경에 맞는 설정을 선택할 경우 conda 패키지 도구를 이용하여 pytorch 설치할 수 있는 방법을 "Run this Command"에 가이드 합니다. 다음은 conda 명령어를 통해 pytorch 를 설치하는 과정입니다.
 
@@ -143,15 +137,13 @@ tensor([[0.9369, 0.2089, 0.2880],
 
 ### Pytorch Ubuntu 설치
 
-![](../../.gitbook/assets/pytorch\_support\_ubuntu2.png)
+![](../../../.gitbook/assets/pytorch\_support\_ubuntu2.png)
 
 pip 패키지 도구를 이용하여 pytroch 를 설치합니다.
 
 ```
 pip3 install torch==1.8.2+cu111 torchvision==0.9.2+cu111 torchaudio==0.8.2 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
 ```
-
-
 
 ## OpenCV 설치
 

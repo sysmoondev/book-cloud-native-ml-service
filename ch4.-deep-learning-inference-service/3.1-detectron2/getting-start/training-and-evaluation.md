@@ -75,7 +75,7 @@ MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/13784
 
 위 추론테스트를 실행하면 ./output/input.jpg 결과물 즉, Instance Segmentaion 모델을 통해 각 객체를 인식하고, 해당 객체를 마스킹하여 분류한 결과를 확인할 수 있습니다.
 
-![](../../.gitbook/assets/output\_instance\_segmentaion\_01.png)
+![](../../../.gitbook/assets/output\_instance\_segmentaion\_01.png)
 
 
 
@@ -237,7 +237,7 @@ Training 실행 결과는 다음과 같이 확인 가능합니다.&#x20;
 
 ### Evaluation
 
-학습이 끝난 이후, 생성된 모델 (/path/to/checkpoint\_file) 에 대해 Weight 를 이하여 평가 합니다.
+학습이 끝난 이후, 생성된 모델 (/path/to/checkpoint\_file) 에 대해 Weight 값(MODEL.WEIGHTS)을 이용하여 평가 합니다.
 
 ```
 ./train_net.py \
