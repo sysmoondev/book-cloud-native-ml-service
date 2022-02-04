@@ -75,7 +75,7 @@ MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/13784
 
 위 추론테스트를 실행하면 ./output/input.jpg 결과물 즉, Instance Segmentaion 모델을 통해 각 객체를 인식하고, 해당 객체를 마스킹하여 분류한 결과를 확인할 수 있습니다.
 
-![](../../../.gitbook/assets/output\_instance\_segmentaion\_01.png)
+![](../../.gitbook/assets/output\_instance\_segmentaion\_01.png)
 
 
 
@@ -222,7 +222,7 @@ train\_net.py 파라미터&#x20;
 * \--config-file: model zoo 에 이미 학습된 모델의 정보가 담긴 yaml 파일의 경로명 설정 (../configs/COCO-InstanceSegmentation/mask\_rcnn\_R\_50\_FPN\_1x.yaml)
 * \--num-gpus: 학습에 사용된 GPU 개수, SOVER Batch 개수, SOLVER LR 값&#x20;
 
-Training 실행 결과는 다음과 같이 확인 가능합니다.&#x20;
+Training 각 Iteration 각 과정의 상태정보는 다음과 같이 확인 가능합니다.&#x20;
 
 ```
 [01/28 05:50:20 d2.utils.events]:  eta: 3:38:57  iter: 46419  total_loss: 0.9065  loss_cls: 0.2416  loss_box_reg: 0.2231  loss_mask: 0.2867  loss_rpn_cls: 0.03078  loss_rpn_loc: 0.05532  time: 0.2958  data_time: 0.0030  lr: 0.0025  max_mem: 2890M
@@ -235,13 +235,95 @@ Training 실행 결과는 다음과 같이 확인 가능합니다.&#x20;
 [01/28 05:51:01 d2.utils.events]:  eta: 3:38:26  iter: 46559  total_loss: 1.064  loss_cls: 0.2992  loss_box_reg: 0.2865  loss_mask: 0.319  loss_rpn_cls: 0.05752  loss_rpn_loc: 0.08471  time: 0.2958  data_time: 0.0032  lr: 0.0025  max_mem: 2890M
 ```
 
+학습이 정상적으로 종료되면 학습을 실행한 위치에 output 폴더가 생성되고 학습과정의 각 Epoch 과정에서 생성된 상태 정보(Checkpoint) 관련 파일들과 학습에 사용된 설정파일(config.yaml) 파일 및 관련 로그파일들을 확인할 수 있습니다.&#x20;
+
+```
+tree output/
+output/
+├── config.yaml
+├── events.out.tfevents.1643334974.bd-k8s-vps-dev-worker05.11572.0
+├── events.out.tfevents.1643335271.bd-k8s-vps-dev-worker05.26319.0
+├── events.out.tfevents.1643355431.bd-k8s-vps-dev-worker05.21886.0
+├── events.out.tfevents.1643845843.bd-k8s-vps-dev-worker05.9764.0
+├── inference
+│   ├── coco_instances_results.json
+│   └── instances_predictions.pth
+├── last_checkpoint
+├── log.txt
+├── metrics.json
+├── model_0004999.pth
+├── model_0009999.pth
+├── model_0014999.pth
+├── model_0019999.pth
+├── model_0024999.pth
+├── model_0029999.pth
+├── model_0034999.pth
+├── model_0039999.pth
+├── model_0044999.pth
+├── model_0049999.pth
+├── model_0054999.pth
+├── model_0059999.pth
+├── model_0064999.pth
+├── model_0069999.pth
+├── model_0074999.pth
+├── model_0079999.pth
+├── model_0084999.pth
+├── model_0089999.pth
+└── model_final.pth
+```
+
+last\_checkpoint 는 각 Epoch 단계별 마지막 학습된 모델 정보를 포함하고 있으며, 위 과정은 모든 학습과정이 완료되었기 때문에 model-final.pth 파일의 정보를 담고 있는 것을 확인할 수 있습니다. 따라서 최종 학습이 완료되어 생성된 모델 파일을 이용하여 검증용 데이터를 이용하여 추론 성능을 평가할 수 있습니다.
+
+```
+cat output/last_checkpoint
+model_final.pth
+```
+
 ### Evaluation
 
-학습이 끝난 이후, 생성된 모델 (/path/to/checkpoint\_file) 에 대해 Weight 값(MODEL.WEIGHTS)을 이용하여 평가 합니다.
+학습이 끝난 이후, 생성된 모델 (/path/to/checkpoint\_file) 에 대해 Weight 값(MODEL.WEIGHTS)로 입력하여 평가 합니다.
 
 ```
-./train_net.py \
-  --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
-  --eval-only MODEL.WEIGHTS /path/to/checkpoint_file
+./train_net.py --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
+               --eval-only MODEL.WEIGHTS \
+               output/model_final.pth
 ```
 
+평가가 정상적으로 완료되면 아래와 같이 각 이미지 카테고리 별 성능 평가에 관련 주요 지표를 테이블 형태로 확인할 수 있습니다.
+
+```
+[02/04 00:30:40 d2.evaluation.coco_evaluation]: Evaluation results for segm: 
+|   AP   |  AP50  |  AP75  |  APs   |  APm   |  APl   |
+|:------:|:------:|:------:|:------:|:------:|:------:|
+| 34.791 | 53.597 | 36.895 | 15.648 | 37.585 | 51.922 |
+[02/04 00:30:40 d2.evaluation.coco_evaluation]: Per-category segm AP: 
+| category      | AP      | category     | AP     | category       | AP     |
+|:--------------|:--------|:-------------|:-------|:---------------|:-------|
+| person        | 39.900  | bicycle      | 13.020 | car            | 31.346 |
+| motorcycle    | 25.898  | airplane     | nan    | bus            | 62.575 |
+| train         | 80.000  | truck        | 8.412  | boat           | 18.781 |
+| traffic light | 13.642  | fire hydrant | 31.386 | stop sign      | 0.000  |
+| parking meter | nan     | bench        | 26.006 | bird           | 24.157 |
+| cat           | 46.238  | dog          | 22.574 | horse          | 73.119 |
+| sheep         | nan     | cow          | 10.000 | elephant       | 51.584 |
+| bear          | 56.950  | zebra        | 40.706 | giraffe        | 72.525 |
+| backpack      | 24.017  | umbrella     | 45.961 | handbag        | 15.045 |
+| tie           | 3.200   | suitcase     | nan    | frisbee        | 42.067 |
+| skis          | 4.147   | snowboard    | 0.000  | sports ball    | 72.051 |
+| kite          | 41.963  | baseball bat | 26.386 | baseball glove | 80.000 |
+| skateboard    | 0.000   | surfboard    | 6.733  | tennis racket  | 25.439 |
+| bottle        | 14.572  | wine glass   | 59.142 | cup            | 22.239 |
+| fork          | 7.574   | knife        | nan    | spoon          | 0.000  |
+| bowl          | 0.578   | banana       | 90.000 | apple          | 92.525 |
+| sandwich      | 10.033  | orange       | nan    | broccoli       | 40.290 |
+| carrot        | 3.472   | hot dog      | nan    | pizza          | 10.173 |
+| donut         | 36.142  | cake         | nan    | chair          | 6.535  |
+| couch         | 30.579  | potted plant | 10.769 | bed            | 55.347 |
+| dining table  | 8.339   | toilet       | 50.297 | tv             | 69.950 |
+| laptop        | 71.584  | mouse        | 39.901 | remote         | 1.030  |
+| keyboard      | 55.248  | cell phone   | 9.010  | microwave      | 90.000 |
+| oven          | 45.446  | toaster      | nan    | sink           | 45.446 |
+| refrigerator  | 100.000 | book         | 5.885  | clock          | 41.485 |
+| vase          | 16.359  | scissors     | nan    | teddy bear     | 90.000 |
+| hair drier    | nan     | toothbrush   | nan    |                |        |
+```

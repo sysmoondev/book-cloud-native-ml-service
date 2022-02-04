@@ -88,7 +88,7 @@ cd demo
 wget http://images.cocodataset.org/val2017/000000439715.jpg -q -O input.jpg
 ```
 
-![](../../../.gitbook/assets/input.jpg)
+![](../../.gitbook/assets/input.jpg)
 
 #### 추론 테스트 실행 (demo.py)
 
@@ -100,7 +100,7 @@ python demo.py --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50
   --opts MODEL.DEVICE cpu MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
 ```
 
-![](../../../.gitbook/assets/output\_instance\_segmentaion\_01.png)
+![](../../.gitbook/assets/output\_instance\_segmentaion\_01.png)
 
 추론 결과물과 같이 원본 사진에서 Instance Segmentaion 을 통해 Object Detection 하고, 분류(Classification)알고리즘을 통해 Person, Horse, Umbrella 객체를 마스킹 하여 표현합니다.
 

@@ -53,7 +53,7 @@ Detectron2 의 경우 pytorch >= 1.8 이상을 지원하기 때문에 LTS(1.8.2)
 * Language: Python
 * Compute Platform: CPU
 
-![](../../../.gitbook/assets/pytorch\_support\_program.png)
+![](../../.gitbook/assets/pytorch\_support\_program.png)
 
 위와 같이 각자 개발환경에 맞는 설정을 선택할 경우 conda 패키지 도구를 이용하여 pytorch 설치할 수 있는 방법을 "Run this Command"에 가이드 합니다. 다음은 conda 명령어를 통해 pytorch 를 설치하는 과정입니다.
 
@@ -137,7 +137,7 @@ tensor([[0.9369, 0.2089, 0.2880],
 
 ### Pytorch Ubuntu 설치
 
-![](../../../.gitbook/assets/pytorch\_support\_ubuntu2.png)
+![](../../.gitbook/assets/pytorch\_support\_ubuntu2.png)
 
 pip 패키지 도구를 이용하여 pytroch 를 설치합니다.
 

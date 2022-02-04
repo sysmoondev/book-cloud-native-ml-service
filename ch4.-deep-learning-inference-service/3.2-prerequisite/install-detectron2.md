@@ -48,7 +48,7 @@ python -m pip install setuptools==59.5.0
 
 ## Pre-Built 설치방법 (리눅스만 지원)
 
-![](<../../../.gitbook/assets/detectron2\_support\_table (1).png>)
+![](<../../.gitbook/assets/detectron2\_support\_table (1).png>)
 
 사전 요구사항을 기준으로 구축한 Pytorch, CUDA 버전을 기반으로 Pre-Built 설치를 위해 필요한 조합을 선택합니다. 현재 테트 환경은 Pytorch Stable (1.10.1), CUDA (11.3) 버전이므로 위 테이블 조합중에 torch(1.10), CUDA(11.3) 을 선택하여 install 버튼을 설치 방법을 확인합니다.
 
