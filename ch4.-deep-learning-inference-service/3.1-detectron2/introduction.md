@@ -30,13 +30,43 @@ Object Detection은 컴퓨터 비전 기술의 세부 분야중 하나로써 주
 
 ![](https://miro.medium.com/max/2160/1\*TcPH-XRIlyoB63CqiTCkLw.png)
 
-Segmentaion은 분할한다는 뜻인데 컴퓨터 비전에서는 이미지나 동영상을 분석해서 여러개의 필셀 집합으로 나누는 작업입니다. 이 픽셀 집합을 Segment 라고 부르는데 이것은 객체가 될 수도 있고, 배경이 될 수도 있습니다.
+Sementic Sementaion은 컴퓨터 비전 분야에서 가장 핵심적인 분야중에 하나입니다. 단순히 사진 이미지를 보고 객체를 탐지하고, 분류하는 것에 그치지 않고 해당 장면을 완벽히 이해애햐 하는 고도 수준의 문제입니다. Segmentaion의 사전적 의미를 살펴보 분할한다는 뜻인데 컴퓨터 비전에서는 이미지나 동영상을 분석해서 여러개의 필셀 집합으로 나누는 작업을 의미합니다. 이 픽셀 집합을 Segment 라고 부르는데 이것은 객체가 될 수도 있고, 배경이 될 수도 있습니다. 이미지 분석은 미리 정해진 클래스의 집합을 이용하여 주어진 이미지의 각 픽셀을 특정 클래스로 분류하는 작업입니다. 위 이미지와 같이 사람, 나무, 하늘, 자동차, 도로, 신호등 등의 클래스로 분류 합니다.&#x20;
+
+Semantic Segmentation의 정확한 의미와 목적을 이해할 필요가 있는데 컴퓨터 비전에서 그 동안 고민했던 문제들을 살펴보면 다음과 같은 것들이 있습니다.
+
+* Classification (분류): 입력된 이미지에 대해 하나의 레이블을 예측하는 작업
+* Localization / Detection (탐지): 이미지 안의 객체를 탐지하고, BBOX를 통해 물체의 위치정보 제공
+* Segmentaion (분할): 모든 픽셀의 레이블 예측
+
+결국 Sementic Segmentaion은 이미지에 있는 모든 픽셀을 미리 지정된 class 개수에 따라 분류하는 것이 최종 목적입니다. 아래 그림은 전체 이미지에서 W\*H\*3 크기의 이미지 픽셀을 분석하여 전체 픽셀의 예측 클래스를 담고 있는 W\*H 배열을 생성하는 과정 입니다. 이 과정을 통해 각 픽셀을 지정된 클래스 (Person, Pure, Plants, Sidewalk, Building)로 분류할 수 있습니다.
+
+![](https://i.imgur.com/Sp5l9P9.png)
+
+여기서 주의할 점은 Segmentaion 과정에서 동일 클래스 내의 Instance(eg: 사람)를 구별하지 않습니다. 에를 들면 사진에서 사은 빨간색으로 분류했는데 사람 이라는 클래스 내에서 남자, 여자, 어린이와 같이 디테일하게 분류하지 않고, 사람 클래스 하나로 분류합니다. 즉 픽셀 자체가 어느 클래스에 속하는지만 분류합니다. 이와 다르게 동일한 클래스 내에서도 Instance 를 구별하는 모델을 Instance Segmentaion 라고 합니다.
 
 ### Instance Segmentaion
 
-Instance segmentation는 [Mask R-CNN](https://paperswithcode.com/paper/mask-r-cnn)를 사용하였습니다. Semantic segmentation에서는 class를 분류 기준으로 하여 같은 class 별로 mask 내에서 동일 색상으로 표시합니다. 반면, Instance segmentation은 사물을 분류 기준으로 하여 같은 class라도 서로 다른 객체로 인식이 되면 mask상에서 다른 색상으로 표시합니다.
+![](https://blog.kakaocdn.net/dn/CRvWU/btqSsQypZlk/gAMakLhRAykcULSIsSaP60/img.png)
+
+Instacne Segmentaion은 이미지 내에 존재하는 모든 객체를 탐지하고, 동시에 동일 클래스 내의 인스턴스를 정확하게 픽셀 단위로 분류합니다. 위에서 소개한 Sementic Segmenation 이 동일한 클래스 내의 인스턴스를 분류하지 않는다는 점에서 차이가 있습니다. 즉 객체를 탐지하는 Object Detection과 픽셀 단위로 클래스를 분류하는 Sementic Segmentation이 결합된 형태입니다. Instance Segmentation는 [Mask R-CNN](https://paperswithcode.com/paper/mask-r-cnn)를 사용하였습니다. 따라서 Mssk R-CNN에 대한 간단한 이해가 필요합니다.
+
+#### Mask R-CNN
+
+![](https://blog.kakaocdn.net/dn/cR4qxV/btqW8GKjzrf/l9ZJ1d1Aa7Pk8zKMpD2lTk/img.jpg)
 
 
+
+이미지가 주어졌을때 객체를 찾아내기 위해서 Faster R-CNN을 통해 얻는 RoI(Region of Interest) 이라고 불리는 영역을 예측하게 됩니다. 그래서 Region의 앞글자를 따서 R-CNN (Regions-Convolution Neuron Networks)라고 부릅니다. 이 영역을 예측하는 일과 동시에 양질의 마스크(Segmentation Mask)를 생성해서 객체를 효과적으로 찾아내는 과정이 이 논문의 목표입니다.
+
+* **Segmentaion Mask 생성 (Classification & Localization (Pixel))**
+
+Mask R-CNN은 이미지 내에서 각 instance에 대한 segmentation mask를 생성한다. (Classification + Localization) 여기서 Mask의 의미는 Object Detection 의 BBOX 가 Pixel 수준으로 정교하게 분할되었다고 이해하면 됩니다. 따라서 BBOX 와 같은 사각형 형태의 모양이 아닌 해당 객체를 정교하게 Pixel 단위로 분할하여 구분할 수 있습니다.
+
+* **Mask R-CNN = Faster R-CNN에 mask branch**
+
+Mask R-CNN는 Faster R-CNN에 mask branch를 더한 것입니다. mask branch는 object의 mask를 예측하는 branch이다. Mask R-CNN은 5fps의 속도이며 human pose estimate에서도 사용된다. COCO 2016 challenge에서 1등을 차지했다고 한다.
+
+**Mask R-CNN**은 Faster R-CNN의 RPN에서 얻은 RoI(Region of Interest)에 대하여 객체의 class를 예측하는 classification branch, bbox regression을 수행하는 bbox regression branch와 평행으로 segmentation mask를 예측하는 **mask branch**를 추가한 구조를 가지고 있습니다. mask branch는 각각의 RoI에 작은 크기의 FCN(Fully Convolutional Network)가 추가된 형태입니다. segmentation task를 보다 효과적으로 수행하기 위해 논문에서는 객체의 spatial location을 보존하는 **RoIAlign** layer를 추가했습니다.&#x20;
 
 ### Person Keypoint Detection
 
