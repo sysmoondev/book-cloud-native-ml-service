@@ -21,6 +21,8 @@ Detectron2는 이미 학습된 모델을 [model zoo](https://github.com/facebook
 | [R101-FPN](https://github.com/facebookresearch/detectron2/blob/main/configs/COCO-InstanceSegmentation/mask\_rcnn\_R\_101\_FPN\_3x.yaml)        | 3x                 | 0.340                            | 0.056                              | 4.6                         | 42.9             | 38.6              | 138205316 | [model](https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask\_rcnn\_R\_101\_FPN\_3x/138205316/model\_final\_a3ec72.pkl) \| [metrics](https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask\_rcnn\_R\_101\_FPN\_3x/138205316/metrics.json)               |
 | [X101-FPN](https://github.com/facebookresearch/detectron2/blob/main/configs/COCO-InstanceSegmentation/mask\_rcnn\_X\_101\_32x8d\_FPN\_3x.yaml) | 3x                 | 0.690                            | 0.103                              | 7.2                         | 44.3             | 39.5              | 139653917 | [model](https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask\_rcnn\_X\_101\_32x8d\_FPN\_3x/139653917/model\_final\_2d9806.pkl) \| [metrics](https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask\_rcnn\_X\_101\_32x8d\_FPN\_3x/139653917/metrics.json) |
 
+
+
 이 중에 Instance Segmentation 모델(mask\_rcnn\_R\_50\_FPN\_3x.yaml)을 이용하여 추론 테스트를 진행합니다.
 
 1. model zoo 에서 mask\_rcnn\_R\_50\_FPN\_3x.yaml 선택
@@ -35,6 +37,8 @@ python demo.py --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50
   [--other-options]
   --opts MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
 ```
+
+
 
 The configs are made for training, therefore we need to specify `MODEL.WEIGHTS` to a model from model zoo for evaluation. This command will run the inference and show visualizations in an OpenCV window.
 
@@ -70,10 +74,12 @@ optional arguments:
 
 이 중에서 공통으로 사용 가능한 옵션들을 보면
 
-* 입력 데이터를 **webcam 영상데이터로 사용하기 위해**, `--input file 대신에 --webcam 파라미터 사용.`
+* 입력 데이터를  **webcam  영상데이터로 사용하기 위해**, `--input file 대신에 --webcam 파라미터 사용.`
 * 입력 데이터를 **on a video 영상데이터로 사용하기 위해** `--input files` 대신에 `--video-input video.mp4 파라미터 사용`
 * **cpu 모드로 추론하기 위해** --opts 뒤에 `MODEL.DEVICE cpu 파라터터 사용`
 * 추론 결과물 파일 이미지 또는 동영상 파일 (webcam or video)로 저장기 위한 경로명으로 --output 파라미터 사용.
+
+
 
 ### Instance Segmentaion 추론 테스트
 
@@ -98,7 +104,10 @@ wget http://images.cocodataset.org/val2017/000000439715.jpg -q -O input.jpg
 python demo.py --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml \                                                                                [20:28:41]
   --input input.jpg \
   --opts MODEL.DEVICE cpu MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
+
 ```
+
+
 
 ![](../../.gitbook/assets/output\_instance\_segmentaion\_01.png)
 
@@ -107,3 +116,4 @@ python demo.py --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50
 ## Ref
 
 * [QT plugin install](https://log-mylife.tistory.com/entry/Could-not-load-the-Qt-platform-plugin-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EB%B2%95)
+

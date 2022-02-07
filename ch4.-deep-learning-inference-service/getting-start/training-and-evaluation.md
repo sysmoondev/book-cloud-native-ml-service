@@ -90,7 +90,7 @@ plain_train_net.py 스크립트는 plain\_net.py 에 비해 더 적은 기능들
 
 ### Datasets 준비
 
-train\_net.py 스크립트를 이용하여 학습을 시작하기 전에 학습에 필요한 COCO 형식의 [Datasets](https://github.com/facebookresearch/detectron2/blob/main/datasets/README.md) 준비가 필요합니다. Detectron2 는 Built-in Datasets 을 제공하고 있고, 환경변수(DETECTRON2\_DATASETS)에 지정된 경로명에 있는 Datasets 을 이용하여 학습데이터로 활용합니다. Datasets 파일 디렉토리 구조는 다음과 같습니다.
+Datasets 은 DETECTRON2\_DATASETS 환경변수에 명시된 디렉토리에 이미 학습과 검증을 위한 데이터가 존재하는 것을 가정합니다. 따라서 train\_net.py 스크립트를 이용하여 학습을 시작하기 전에 학습에 필요한 COCO 형식의 [Datasets](https://github.com/facebookresearch/detectron2/blob/main/datasets/README.md) 준비가 필요합니다. Detectron2 는 Built-in Datasets 을 제공하고 있고, 환경변수(DETECTRON2\_DATASETS)에 지정된 경로명에 있는 Datasets 을 이용하여 학습데이터로 활용합니다. Datasets 파일 디렉토리 구조는 다음과 같습니다. Detectron2 는 기본적으로 COCO, LVIS, Cityscapes, VOC20 Datasets 을 지원합니다. 따라서 필요한 데이터는 직접 해당 사이트에 방문하여 다운로드하여 아래 경로명에 저장해야 합니다.
 
 ```
 $DETECTRON2_DATASETS/

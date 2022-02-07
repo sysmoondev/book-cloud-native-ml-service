@@ -47,9 +47,11 @@
 ## Ch4. Deep Learning Inference Service
 
 * [3.1 Detectron2](ch4.-deep-learning-inference-service/3.1-detectron2.md)
+  * [Introduction](ch4.-deep-learning-inference-service/3.1-detectron2/introduction.md)
   * [Installation](ch4.-deep-learning-inference-service/3.2-prerequisite/README.md)
     * [Requirements](ch4.-deep-learning-inference-service/3.2-prerequisite/requirements.md)
     * [Install Detectron2](ch4.-deep-learning-inference-service/3.2-prerequisite/install-detectron2.md)
+  * [Configuration](ch4.-deep-learning-inference-service/3.1-detectron2/configuration.md)
   * [Getting Start](ch4.-deep-learning-inference-service/getting-start/README.md)
     * [Inference Demo with Pre-trained Models](ch4.-deep-learning-inference-service/getting-start/inference-demo-with-pre-trained-models.md)
     * [Training & Evaluation](ch4.-deep-learning-inference-service/getting-start/training-and-evaluation.md)

@@ -8,6 +8,10 @@ Detectron2 설치에 필요한 [사전준비](https://detectron2.readthedocs.io/
 * PyTorch ≥ 1.8 and [torchvision](https://github.com/pytorch/vision/) that matches the PyTorch installation. Install them together at [pytorch.org](https://pytorch.org) to make sure of this
 * OpenCV is optional but needed by demo and visualization
 
+
+
+
+
 ## 파이썬 설치 (Anaconda)
 
 ### MacOS 설치
@@ -19,6 +23,8 @@ blabla
 install the PyTorch binaries, you will need to use one of two supported package managers: [Anaconda](https://www.anaconda.com/download/#linux) or [pip](https://pypi.org/project/pip/). Anaconda is the recommended package manager as it will provide you all of the PyTorch dependencies in one, sandboxed install, including Python.
 
 #### pip
+
+
 
 python3.8-dev 설치
 
@@ -144,6 +150,8 @@ pip 패키지 도구를 이용하여 pytroch 를 설치합니다.
 ```
 pip3 install torch==1.8.2+cu111 torchvision==0.9.2+cu111 torchaudio==0.8.2 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
 ```
+
+
 
 ## OpenCV 설치
 
