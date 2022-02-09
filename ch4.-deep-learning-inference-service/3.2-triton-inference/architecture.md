@@ -28,71 +28,27 @@ triton은 instance-group이라는 [model configuration](https://benlee73.tistory
 
 ### **Models And Schedulers**
 
-triton은 각 모델에 대해 독립적으로 multiple scheduling, bathcing algorithms 을 지원할 수 있다.
-
-stateless, stateful, ensemble model 의 타입에 따라 triton이 지원하는 스케줄러가 다르다.
-
-&#x20;
+triton은 각 모델에 대해 독립적으로 multiple scheduling, bathcing algorithms 을 지원 합니다. stateless, stateful, ensemble model 의 타입에 따라 triton이 지원하는 스케줄러가 다릅니다.
 
 **Stateless Models**
 
-stateless 모델은 inference 요청들 사이의 state를 저장하지 않고, 각 inference 들은 서로 독립적이다.
-
-예를 들어, CNN의 image classification, object detection이 그렇다.
-
-default scheduler, dynamic batcher 가 이 stateless model에 사용될 수 있다.
-
-&#x20;
-
-즉, CNN과 같은 모델은 이전 요청들과는 관계가 중요치 않기 때문에, 다른 모델 인스턴스로 inference 해도 상관 없다.
-
-&#x20;
+stateless 모델은 inference 요청들 사이의 state를 저장하지 않고, 각 inference 들은 서로 독립적이다. 예를 들어, CNN의 image classification, object detection이 그렇다. default scheduler, dynamic batcher 가 이 stateless model에 사용될 수 있다. 즉, CNN과 같은 모델은 이전 요청들과는 관계가 중요치 않기 때문에, 다른 모델 인스턴스로 inference 해도 상관 없다.
 
 **Statueful Models**
 
-반면, stateful 모델은 inference 요청들 사이의 관계를 유지한다.
+반면, stateful 모델은 inference 요청들 사이의 관계를 유지한다. 각 모델은 여러개의 인스턴스 실행을 통해 동접 요에 대한 병렬처리를 실행 수 있는데 이 경우 각 Inference 요청에 대한 상태 관리가 필요한 경우 서로 다른 인스턴스로 전달되면 상태 관리가 어렵습니다. 따라서 연속되는 요청들 사이의 상태가 유지되어야 하는 경우 새로운 요청을 새로운 모델 인스턴스에 보내지 않고 동일한 모델로 보내서 inference를 해야합니다. 이를 위해 모델은 triton에게 요청 시퀀스의 시작과 끝을 알리는 control 신호를 요구 합니다.
 
-모델은 무조건 같은 모델 인스턴스로 들어가야 할 여러 inference 요청들이 sequence로 묶인 것을 받을 것으로 예상한다.
-
-즉, 연속되는 요청들 사이의 state가 유지되어야 하기 때문에, 새로운 요청을 새로운 모델 인스턴스에 보내지 못하고 같은 모델로 보내서 inference를 해야한다.
-
-그래서 모델은 triton에게 요청 시퀀스의 시작과 끝을 알리는 control 신호를 요구할 것이다.
-
-&#x20;
-
-stateful model은 sequence batcher를 사용한다.
-
-이는 한 시퀀스의 모든 inference 요청들이 같은 모델 인스턴로 들어가게 하여, 모델이 올바르게 state를 유지하도록 한다.
-
-그리고 batcher는 모델과 통신하여, 시퀀스가 언제 시작하고 끝나는지, 시퀀스의 correlation ID 등을 알려준다.
-
-&#x20;
+stateful model은 sequence batcher를 사용한다. 이는 한 시퀀스의 모든 inference 요청들이 같은 모델 인스턴로 들어가게 하여, 모델이 올바르게 state를 유지하도록 한다. 그리고 batcher는 모델과 통신하여, 시퀀스가 언제 시작하고 끝나는지, 시퀀스의 correlation ID 등을 알려준다.
 
 client가 stateful model로 inference 요청을 보낼 때, 같은 시퀀스 안의 요청들은 모두 같은 correlation ID를 가져야하고, 시퀀스의 시작과 끝을 표시해야한다.
 
-&#x20;
-
 **Ensemble Models**
 
-앙상블 모델은 하나 또는 여러 모델의 pipeline 과, 각 모델들 간의 입출력 텐서의 연결을 나타낸다.
+앙상블 모델은 하나 또는 여러 모델을 pipeline 연결하고, 각 모델들 간의 입출력 Tensor의 연결을 나타낸다. 파이프라인은 "data preprocessing -> inference -> data postprocessing" 와 같이 여러 모델을 포함하는 절차를 구하기 위해 앙상블 모델을 사용합니다. 이를 통해, Tensor 전송의 오버헤드를 피할 수 있고, triton으로 보내는 요청의 개수도 줄일 수 있다.
 
-"data preprocessing -> inference -> data postprocessing" 와 같이 여러 모델을 포함하는 절차를 위해 앙상블 모델이 사용된다.
+앙상블에 속해 있는 각 모델에 스케줄러가 있음에도 불구하고, 앙상블 모델에는 앙상블 스케줄러가 사용됩니다. model configuration의 _ModelEnsembling::Step_ 에서 모델 사이의 dataflow를 지정할 수 있다. 스케줄러는 위에서 작성한 각 step의 output tensors를 모아서 지정된 step으로 전달한다. 앙상블 모델은 실제 모델이 아님에도 불구하고, 이러한 특성 때문에 밖에서는 하나의 모델처럼 보여진다.&#x20;
 
-이를 통해, 텐서 전송의 오버헤드를 피할 수 있고, triton으로 보내는 요청의 개수도 줄일 수 있다.
-
-&#x20;
-
-앙상블에 속해 있는 각 모델에 스케줄러가 있음에도 불구하고, 앙상블 모델에는 앙상블 스케줄러가 사용된다.
-
-model configuration의 _ModelEnsembling::Step_ 에서 모델 사이의 dataflow를 지정할 수 있다.
-
-스케줄러는 위에서 작성한 각 step의 output tensors를 모아서 지정된 step으로 전달한다.
-
-앙상블 모델은 실제 모델이 아님에도 불구하고, 이러한 특성 때문에 밖에서는 하나의 모델처럼 보여진다.
-
-&#x20;
-
-image classification 과 segmenation 의 앙상블 모델은 아래와 같이 작성된다.
+Image Classification 과 Segmenation 의 앙상블 모델은 아래와 같이 작성된다.
 
 ```
 name: "ensemble_model"
@@ -159,18 +115,16 @@ ensemble_scheduling {
 }
 ```
 
-스케줄러는 앙상블 모델의 input(IMAGE), output(CLASSIFICATION, SEGMENTATION), 각 input\_map 과 output\_map의 모든 값을 인식한다.
-
-그래서 앙상블 스케줄러가 보는 앙상블 모델은 아래의 그림과 같다.
+스케줄러는 Ensemble 모델의 input(IMAGE), output(CLASSIFICATION, SEGMENTATION), 각 input\_map 과 output\_map의 모든 값을 인식한다. 그래서 앙상블 스케줄러가 보는 앙상블 모델은 아래의 그림과 같다.
 
 ![](https://github.com/triton-inference-server/server/raw/main/docs/images/ensemble\_example0.png)
 
 앙상블 모델로 요청이 들어왔을 때, 앙상블 스케줄러의 동작은 아래와 같다.&#x20;
 
 1. 요청의 "IMAGE" 텐서가 전처리 모델의 "RAW\_IMAGE" 로 매핑된 것을 인식한다.
-2. 앙상블 내의 모델을 확인하고, 필요한 input tensor가 모두 준비되었다면 전처리 모델로 요청을 보낸다.
+2. 앙상블 내의 모델을 확인하고, 필요한 input tensor가 모두 준비되면 전처리 모델(image_preprocessor_model)로 요청을 보낸다.
 3. 출력 텐서를 가져와서 "preprocessed\_image" 에 매핑한다.
-4. 새로 수집된 텐서를 앙상블 내 모델의 input으로 보낸다. 그러면 두 모델은 준비상태가 된다.
-5. 위의 텐서가 필요한 모델을 확인하고, input tensor가 모두 준비된 모델에 내부 요청을 보낸다. 응답은 모델 로드와 계산 시간에 따라 다르게 나타난다.
+4. 새로 수집된 텐서를 앙상블 내 모델의 input 으로 전송합니다. 그러면 두 모델 classficiation_model, segmentation\_model_ 은 준비상태가 됩니다.
+5. 위의 tensor가 필요한 모델을 확인하고, input tensor가 모두 준비된 모델에 내부 요청을 보낸다. 응답은 모델 로드와 계산 시간에 따라 다르게 나타난다.
 6. 3\~5번 step을 내부 요청이 전송될 때마다 반복하고, 응답을 앙상블 output 이름으로 매핑한다.
 
