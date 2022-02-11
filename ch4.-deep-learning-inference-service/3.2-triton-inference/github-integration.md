@@ -2,7 +2,7 @@
 
 Triton 을 빠르게 테스트 하기 위해 소스 빌드 과정 없이 이미 제공하고 있는 Docker Image 이용하고, 샘플로 제공하는 딥러닝 모델을 이용해서 추론 테스트를 진행합니다.
 
-### Install Triton Docker Image
+### Triton 도커 이미지 설치
 
 Triton Docker 이미지 테스트를 위해 사전에 다음과 사전 작업이 필요합니다.
 
@@ -27,7 +27,7 @@ docker images | grep -i tritonserver
 nvcr.io/nvidia/tritonserver 20.12-py3 73b851354265 14 months ago 12.4GB
 ```
 
-### Run Triton
+### Triton 실행
 
 Triton은 GPU 뿐만 아니라 CPU 환경에서도 Inferencing을 성능을 최적화하여 서비스를 제공합니다. 동일한 Triton 도커 이미지를 활용해서 테스트가 가능합니다.
 
@@ -43,7 +43,7 @@ docker run --name --gpus=1 --rm -p8000:8000 -p8001:8001 -p8002:8002 -v/home/vpsd
 
 **GPU 옵션**&#x20;
 
-\--gpus=1 파라미터를 이용하여 Trtton 에서 Inferencing 을 위해 필요한 GPU 자원의 수를 설정합니다.
+\--gpus=1 파라미터를 이용하여 Trtton 에서 Inferencing 을 위해 필요한 GPU 자원의 수를 설정합니다. --gpus=all 이나, --gpus=2나 --gpus="device=0,1,2,3" 사용하여 추가 작업 없이 Multi GPU를 사용할 수 있습니다. 여기서는 GPU 1개만 사용하여 테스트를 진행합니다.
 
 **컨테이너 실행 옵션**
 
@@ -121,7 +121,31 @@ I0209 08:14:55.275595 1 http_server.cc:2736] Started Metrics Service at 0.0.0.0:
 
 tritonserver 서버 실행상태에 대한 여러 정보를 확인할 수 있고, Inference Test 가능한 프로토콜 별 endpoint 주소 정보와 모니터링을 위한 Metrics Server 정보 확인이 가능합니다.
 
+nvidia-smi 를 통해 tritonserver 가 GPU 1개에 대해서 실행된 것을 확인할 수 있습니다.
 
+```
+nvidia-smi
+Fri Feb 11 04:12:33 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.103.01   Driver Version: 470.103.01   CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA GeForce ...  Off  | 00000000:65:00.0 Off |                  N/A |
+| 18%   40C    P8    20W / 250W |   1476MiB /  7982MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A     11890      C   tritonserver                     1473MiB |
++-----------------------------------------------------------------------------+
+```
 
 ### Triton 실행 검증
 
@@ -137,7 +161,7 @@ $ curl -v localhost:8000/v2/health/ready
 < Content-Type: text/plain
 ```
 
-### Triton Inference 테스트
+### Triton 테스트
 
 Triton 은 클라이언트 사이드에서 다양한 테스트를 위한 도커 이미지를 이미 제공하고 있습니다. 이를 통해 위에서 실행한 tritonserver 에서 Image Classification 모델에 대해 Inference 테스트를 진행합니다. 먼저 21.02 버전과 동일한 nvcr.io/nvidia/tritonserver:20.12-py3-sdk 도커 이미지를 pull 합니다.
 
@@ -164,3 +188,6 @@ Image '/workspace/images/mug.jpg':
     10.422965 (505) = COFFEEPOT
 ```
 
+![/workspace/images/mug.jpg](https://developer.nvidia.com/blog/wp-content/uploads/2018/09/mug-625x469.jpg)
+
+Inference 에 사용된 사용자 이지미 mug.jpg 는 위 사진과 같으며 densenet\_onnx 모델에 의해 분류된 결과물을 확률값 기반으로 소팅된 형태로 확인할 수 있습니다.
