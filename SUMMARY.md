@@ -40,7 +40,7 @@
   * [3.1.4 Security](ch3.-istio-service-mesh/3.1-istio/3.1.4-security.md)
   * [3.1.5 Observability](ch3.-istio-service-mesh/3.1-istio/3.1.5-observability.md)
 * [3.2 Book Info 를 이용한 Traffic Management](ch3.-istio-service-mesh/3.2-istio-traffic-management/README.md)
-  * [3.2.1 맛보기 BookInfo MSA 샘플 애플리케이션](ch3.-istio-service-mesh/3.2-istio-traffic-management/bookinfo-msa.md)
+  * [3.2.1 맛보기 BookInfo Traffic Management](ch3.-istio-service-mesh/3.2-istio-traffic-management/bookinfo-msa.md)
   * [3.2.2 Advance Traffic Management](ch3.-istio-service-mesh/3.2-istio-traffic-management/3.2.2-advance-traffic-management/README.md)
     * [3.2.2.1 Request Routing](ch3.-istio-service-mesh/3.2-istio-traffic-management/3.2.2-advance-traffic-management/3.2.2.1-request-routing.md)
     * [3.2.2.2 Fault Injection](ch3.-istio-service-mesh/3.2-istio-traffic-management/3.2.2-advance-traffic-management/3.2.2.2-fault-injection.md)
