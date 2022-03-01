@@ -1,4 +1,16 @@
-# Bookinfo MSA 샘플 애플리케이션
+# 3.2.1 맛보기 BookInfo MSA 샘플 애플리케이션
+
+### [https://gruuuuu.github.io/cloud/service-mesh-istio/](https://gruuuuu.github.io/cloud/service-mesh-istio/)
+
+### 예제 이용
+
+
+
+mac 기준 설치
+
+window 기준설치
+
+###
 
 ### Bookinfo Micro Service
 
