@@ -114,31 +114,49 @@ Reshape는 Inference API 에서 받은 input output shape 가 예상한 입출�
     }
 ```
 
-~~~~
-
 ### Shape Tensors
 
-blabla
+모양 텐서를 지원하는 모델의 경우 모양 텐서 역할을 하는 입력 및 출력에 대해 is\_shape\_tensor 속성을 적절하게 설정해야 합니다. 다음은 모양 텐서를 지정하는 구성과 예시입니다.
 
-&#x20;
+```
+  name: "myshapetensormodel"
+  platform: "tensorrt_plan"
+  max_batch_size: 8
+  input [
+    {
+      name: "input0"
+      data_type: TYPE_FP32
+      dims: [ -1 ]
+    },
+    {
+      name: "input1"
+      data_type: TYPE_INT32
+      dims: [ 1 ]
+      is_shape_tensor: true
+    }
+  ]
+  output [
+    {
+      name: "output0"
+      data_type: TYPE_FP32
+      dims: [ -1 ]
+    }
+  ]
+```
 
-### ~~Version Policy~~
+위에서 논의한 바와 같이 Triton은 입력 또는 출력 텐서 딤에 나열되지 않은 첫 번째 차원을 따라 일괄 처리가 발생한다고 가정합니다. 그러나 모양 텐서의 경우 첫 번째 모양 값에서 일괄 처리가 발생합니다. 위의 예에서 추론 요청은 다음과 같은 형태의 입력을 제공해야 합니다.
 
-&#x20;
+```
+  "input0": [ x, -1]
+  "input1": [ 1 ]
+  "output0": [ x, -1]
+```
+
+여기서 x는 요청의 배치 크기입니다. Triton은 일괄 처리를 사용할 때 모델에서 모양 텐서를 모양 텐서로 표시해야 합니다. ~~~~ "input1"의 모양은 \[ 2 ]가 아니라 \[ 1 ]입니다. Triton은 모델에 요청을 보내기 전에 "input1"에 모양 값 x를 추가합니다.
 
 ### **Instance Groups**
 
-triton은 한 모델에게 여러 instance를 제공하여, 여러 inference 요청을 동시에 처리할 수 있다.
-
-_ModelInstanceGroup_ property로 실행 인스턴스 수와, 그 인스턴스를 띄울 자원을 지정할 수 있다.
-
-기본적으로 시스템에서 사용 가능한 각 gpu 마다, 모델의 단일 실행 인스턴스가 생성된다.
-
-instance group을 통해 모든 gpu 혹은 특정 gpu에 여러 실행 인스턴스를 띄울 수 있다.
-
-코드는 아래와 같이 작성하여, 각 gpu에 2개의 인스턴스를 띄울 수 있다.
-
-gpu 뿐만 아니라 cpu도 지정이 가능하다.
+Triton은 해당 모델에 대한 동시 추론 요청을 위해 모델의 여러 인스턴스를 제공할 수 있습니다. 모델 구성 항목 중에 ModelInstanceGroup 속성은 사용 가능한 실행 인스턴스의 수와 해당 인스턴스에 사용해야 하는 컴퓨팅 리소스 (CPU or GPU)를 지정하는 데 사용됩니다. 기본적으로 시스템에서 사용 가능한 각 GPU 마다 모델의 단일 실행 인스턴스가 생성됩니다. Instance Group을 통해 모든 GPU 혹은 특정 GPU 에 여러 실행 인스턴스를 띄울 수 있다. 아래 예제와 같이 각 GPU 에 2개의 인스턴스를 띄울 수 있다. GPU 뿐만 아니라 CPU도 지정도 가능합니다.
 
 ```
   instance_group [
@@ -149,65 +167,100 @@ gpu 뿐만 아니라 cpu도 지정이 가능하다.
   ]
 ```
 
-&#x20;
+그리고 다음 구성은 GPU 0에 하나의 실행 인스턴스를 배치하고 GPU 1과 2에 두 개의 실행 인스턴스를 배치합니다.
+
+```
+  instance_group [
+    {
+      count: 1
+      kind: KIND_GPU
+      gpus: [ 0 ]
+    },
+    {
+      count: 2
+      kind: KIND_GPU
+      gpus: [ 1, 2 ]
+    }
+  ]
+```
+
+#### CPU Model Instance
+
+인스턴스 그룹 설정은 CPU에서 모델을 실행하는 데에도 사용됩니다. 시스템에 사용 가능한 GPU가 있더라도 CPU에서 모델을 실행할 수 있습니다. 다음은 CPU에 두 개의 실행 인스턴스를 배치합니다.
+
+```
+  instance_group [
+    {
+      count: 2
+      kind: KIND_CPU
+    }
+  ]
+```
+
+#### Host Policy
+
+인스턴스 그룹 설정은 호스트 정책과 연결됩니다. 다음 구성은 인스턴스 그룹 설정에 의해 생성된 모든 인스턴스를 호스트 정책 "policy\_0"과 연결합니다. 기본적으로 호스트 정책은 인스턴스의 장치 종류에 따라 설정됩니다. 예를 들어 KIND\_CPU는 "cpu", KIND\_MODEL은 "모델", KIND\_GPU는 "gpu\_\<gpu\_id>"입니다.
+
+```
+  instance_group [
+    {
+      count: 2
+      kind: KIND_CPU
+      host_policy: "policy_0"
+    }
+  ]
+```
 
 ### **Scheduling And Batching**
 
-triton은 여러 inference requests 를 배치로 묶고 한번에 처리하여, inferencing throuphput을 크게 증가시킬 수 있다.
+triton은 여러 inference requests 를 배치로 묶고 한번에 처리하여, inferencing throuphput을 크게 증가시킬 수 있습니다.
 
-여러 경우 개별적인 inference requests 를 배치로 묶지 않아서, batching에 의한 throughput 이득을 챙기지 못한다.
+Triton은 개별 추론 요청이 입력 배치를 지정할 수 있도록 하여 배치 추론을 지원합니다. 입력 배치에 대한 추론은 동시에 실행되며, 추론 처리량을 크게 증가시킬 수 있으므로 GPU에 특히 중요합니다. 많은 사용 사례에서 여러 개별 추론 요청은 일괄 처리되지 않으므로 일괄 처리의 처리량 이점이 얻을 수 없기 때문에 Throughput 이득을 챙길 수 없습니다.
 
-&#x20;
+추론 서버에는 다양한 모델 유형 및 사용 사례를 지원하는 여러 일정 및 일괄 처리 알고리즘이 포함되어 있습니다. 모델 유형 및 스케줄러에 대한 자세한 내용은 모델 및 스케줄러에서 찾을 수 있습니다.
 
-**Default Scheduler (뿌리는 역할)**
+#### Default Scheduler
 
-configuration에서 _scheduling\_choice_ 가 지정되지 않을 때 사용된다.
+스케줄링\_선택 속성(_scheduling\_choice)_이 모델 구성에 지정되지 않은 경우 기본 스케줄러가 모델에 사용됩니다. 기본 스케줄러는 단순히 모델에 대해 구성된 모든 모델 인스턴스에 추론 요청을 분배 합니다.
 
-모든 모델 인스턴스에 inference requests 를 분배한다.
+#### Dynamic Scheduler
 
-**Dynamic Batcher (묶는 역할)**
+동적 일괄 처리는 서버에서 추론 요청을 결합하여 일괄 처리가 동적으로 생성되도록 하는 Triton의 기능입니다. 요청 일괄 처리를 생성하면 일반적으로 처리량이 증가합니다. 동적 배처는 상태 비저장 모델에 사용해야 합니다. 동적으로 생성된 배치는 모델에 대해 구성된 모든 모델 인스턴스에 배포됩니다.
 
-dynamic batching은 requests 를 서버가 묶는 triton의 특징이다.
+ModelDynamicBatching 속성을 사용하여 각 모델에 대해 독립적으로 활성화 및 구성됩니다. 이러한 설정은 동적으로 생성된 배치의 기본 크기, 다른 요청이 동적 배치에 참여할 수 있도록 스케줄러에서 요청이 지연될 수 있는 최대 시간, 큐 크기와 같은 큐 속성, 우선순위, 타임아웃을 제어합니다.&#x20;
 
-이는 throughput 향상을 가져오고, stateless 모델을 사용해야만 한다.
-
-이렇게 만든 배치가 모든 모델 인스턴스에 분배된다.
-
-&#x20;
-
-dynamic batching은 model configuration에서 각 모델별로 독립적으로 설정이 가능하다.
-
-동적으로 주로 생성할 배치 사이즈, 다른 요청과 결합되도록 스케줄러에서 기다릴 수 있는 최대 시간, 큐 properties 등을 설정할 수 있다.
-
-&#x20;
+****
 
 **Preferred Batch Sizes**
 
-dynamic batcher가 만들려고 시도할 배치 사이즈를 말한다.
+preferred\_batch\_size 속성은 동적 배처가 생성을 시도해야 하는 배치 크기를 나타냅니다. **** 대부분의 모델의 경우 권장 구성 프로세스에 설명된 대로 preferred\_batch\_size를 지정해서는 안 됩니다. 다른 배치 크기에 대해 여러 최적화 프로필을 지정하는 TensorRT 모델은 예외입니다. 이 경우 일부 최적화 프로필은 다른 프로필에 비해 상당한 성능 향상을 제공할 수 있으므로 이러한 고성능 최적화 프로필에서 지원하는 배치 크기에 대해 preferred\_batch\_size를 사용하는 것이 합리적일 수 있습니다.
 
-아래 코드의 경우 4, 8로 설정하였다.
+다음 예는 기본 배치 크기가 4 및 8인 동적 배치를 활성화하는 구성을 보여줍니다.
 
-batcher는 inference할 수 있는 모델 인스턴스가 생성되면, scheduler에 있는 요청들로 배치를 묶는다.
+```
+  dynamic_batching {
+    preferred_batch_size: [ 4, 8 ]
+  }
+```
 
-요청이 온 순서대로 배치를 채우며, _preferred\_batch\_size_ 중 가능한 큰 배치로 묶는다.
+모델 인스턴스를 추론에 사용할 수 있게 되면 동적 일괄 처리기는 스케줄러에서 사용 가능한 요청에서 일괄 처리를 생성하려고 시도합니다. 요청은 요청을 받은 순서대로 배치에 추가됩니다. 동적 배처가 원하는 크기의 배치를 구성할 수 있는 경우 가능한 가장 큰 기본 크기의 배치를 만들고 추론을 위해 보냅니다. 동적 배처가 원하는 크기의 배치를 구성할 수 없는 경우(또는 동적 배처가 선호하는 배치 크기로 구성되지 않은 경우), 모델에서 허용하는 최대 배치 크기보다 작은 가능한 가장 큰 크기의 배치를 보냅니다(그러나 이 동작을 변경하는 지연 옵션에 대해서는 다음 섹션 참조).
 
-만약 다 불가능하다면, 가장 큰 batch size보다는 작지만, 그래도 가장 큰 사이즈로 묶어서 보낸다.
+생성된 배치의 크기는 개수 메트릭을 사용하여 집계하여 검사할 수 있습니다.
 
-&#x20;
+#### Delayed Batching
 
-&#x20;
+동적 일괄 처리는 다른 요청이 동적 일괄 처리에 참여할 수 있도록 스케줄러에서 제한된 시간 동안 요청이 지연되도록 구성할 수 있습니다. 예를 들어 다음 구성은 요청에 대한 최대 지연 시간을 100마이크로초로 설정합니다.
 
-**Delayed Batching**
+```
+  dynamic_batching {
+    preferred_batch_size: [ 4, 8 ]
+    max_queue_delay_microseconds: 100
+  }
+```
 
-dynamic batcher는 request를 배치로 묶기 위해, 바로 보내지 않고 조금 delay를 줄 수 있다.
+max\_queue\_delay\_microseconds 속성 설정은 최대 크기(또는 선호하는 크기) 일괄 처리를 생성할 수 없을 때 동적 일괄 처리 동작을 변경합니다. 사용 가능한 요청에서 최대 또는 기본 크기의 배치를 생성할 수 없는 경우 동적 배처는 구성된 max\_queue\_delay\_microseconds 값보다 오래 지연된 요청이 없는 한 배치 전송을 지연합니다. 이 지연 시간 동안 새 요청이 도착하고 동적 배처가 최대 또는 기본 배치 크기의 배치를 형성하도록 허용하면 해당 배치가 추론을 위해 즉시 전송됩니다. 지연이 만료되면 동적 일괄 처리는 최대 또는 기본 크기가 아니더라도 일괄 처리를 있는 그대로 보냅니다.
 
-아래 코드의 경우 100ms 시간을 지연시킬 수 있는 최대 값으로 지정하였다.
-
-batcher 는 배치를 구성하는 요청 중 _max\_queue\_delay\_microseconds_ property 를 넘는 요청이 없다면, 계속 딜레이를 줄 수 있다.
-
-만약 딜레이 중 _preferred\_batch\_size_를 만족하는 배치가 만들어지면, inference를 위해 즉시 전송된다.
-
-최대 딜레이 시간을 채우면, 배치 사이즈가 만족스럽지 않더라도 보내게 된다.
+batcher 는 배치를 구성하는 요청 중 _max\_queue\_delay\_microseconds_ property 를 넘는 요청이 없다면, 계속 딜레이를 줄 수 있다. 만약 딜레이 중 _preferred\_batch\_size_를 만족하는 배치가 만들어지면, inference를 위해 즉시 전송된다. 최대 딜레이 시간을 채우면, 배치 사이즈가 만족스럽지 않더라도 보내게 된다.
 
 ```
   dynamic_batching {
@@ -222,49 +275,53 @@ batcher 는 배치를 구성하는 요청 중 _max\_queue\_delay\_microseconds_ 
 
 _preserve\_ordering_ property는 모든 응답(responses)들이 요청(requests)와 같은 순서로 반환되도록 한다.
 
-&#x20;
+
 
 **Priority Levels**
 
-기본적으로 dynamic batcher는 한 모델에 대해 요청을 쌓아두는 하나의 queue만 가진다.
+기본 설정으로 dynamic batcher는 하나의 모델에 대해 요청을 쌓아두는 하나의 queue 를 가지고 있습니다. 그래서 요청은 순서대로 한번에 처리됩니다. priority\_levels 속성을 사용하여 동적 일괄 처리기 내에 여러 우선 순위 수준을 생성하여 우선 순위가 높은 요청이 우선 순위가 낮은 요청을 우회할 수 있습니다. 같은 수준의 우선순위끼리는 요청된 순서대로 처리합니다. 우선순위를 지정하지 않은 요청은 default\_priority\_level 로 스케쥴링 됩니다.
 
-그래서 요청은 순서대로, 한번에 처리된다.
 
-_priority\_levels_ property는 우선순위를 부여하여, 높은 우선순위를 가진 요청이 먼저 배치에 쌓이도록 한다.
-
-같은 수준의 우선순위끼리는 요청된 순서대로 처리한다.
-
-우선순위를 지정하지 않은 요청은 default\_priority\_level 로 스케줄된다.
-
-&#x20;
 
 **Queue Policy**
 
-_priority\_levels_ 이 설정되지 않았다면, default\_queue\_policy에 따라 하나의 queue만 사용된다.
+동적 일괄 처리는 일괄 처리를 위해 요청이 대기하는 방식을 제어하는 ​​여러 설정을 제공합니다.
 
-_priority\_levels_ 가 설정되었다면, default\_queue\_policy and priority\_queue\_policy 에 따라 ModelQueuePolicy가 결정된다.
+priority\_levels가 정의되지 않은 경우 default\_queue\_policy로 단일 큐에 대한 ModelQueuePolicy를 설정할 수 있습니다. __ priority\_levels가 정의되면 default\_queue\_policy 및 priority\_queue\_policy에 지정된 대로 각 우선순위 레벨은 서로 다른 ModelQueuePolicy를 가질 수 있습니다.
 
-&#x20;
-
-ModelQueuePolicy는 max\_queue\_size, timeout\_action, default\_timeout\_microseconds and allow\_timeout\_override 를 지정할 수 있도록 한다.
+_priority\_levels_ 가 설정되었다면, default\_queue\_policy and priority\_queue\_policy 에 따라 ModelQueuePolicy가 결정된다. ModelQueuePolicy는 max\_queue\_size, timeout\_action, default\_timeout\_microseconds and allow\_timeout\_override 를 지정할 수 있습니다.
 
 &#x20;
 
 **Sequence Batcher**
 
-요청을 배치로 묶는 다는 점이 dynamic batcher와 같다.
+동적 일괄 처리와 마찬가지로 시퀀스 일괄 처리는 일괄 처리가 동적으로 생성되도록 일괄 처리되지 않은 추론 요청을 결합합니다. 하지만 inference 요청들의 sequence가 같은 모델 인스턴스로 들어가야하는 stateful 모델을 사용한다는 점이 다릅니다. _ModelSequenceBatching_ property를 통해 sequence batching을 설정한다.이 설정은 sequence의 시작, 끝, 준비, 관계 ID를 정할 수 있다.
 
-하지만 inference 요청들의 sequence가 같은 모델 인스턴스로 들어가야하는 stateful 모델을 사용한다는 점이 다르다.
 
-_ModelSequenceBatching_ property를 통해 sequence batching을 설정한다.
-
-이 설정은 sequence의 시작, 끝, 준비, 관계 ID를 정할 수 있다.
-
-&#x20;
 
 **Ensemble Scheduler**
 
-ensemble model 과 사용되고, _ModelEnsembleScheduling_ property를 통해 설정된다.
+앙상블 스케줄러는 앙상블 모델에 사용해야 하며 다른 유형의 모델에는 사용할 수 없습니다. _ModelEnsembleScheduling_ property를 통해 설정되고 모델간 tensor의 흐름을 지정할 수 있다. 자세한 내용으 [Ensemble Models](https://github.com/triton-inference-server/server/blob/main/docs/architecture.md#ensemble-models) 에서 확인할 수 있습니다.
 
-모델간 tensor의 흐름을 지정할 수 있다.
+### Optimization Policy
 
+모델 구성 ModelOptimizationPolicy 속성은 모델에 대한 최적화 및 우선 순위 설정을 지정하는 데 사용됩니다. 이러한 설정은 백엔드에서 모델을 최적화하는지 여부와 Triton에서 예약 및 실행하는 방법을 제어합니다. 현재 사용 가능한 설정은 ModelConfig protobuf 및 최적화 문서를 참조하세요.\
+
+
+### Model Warmup
+
+모델이 Triton에 의해 로드되면 해당 백엔드가 해당 모델에 대해 초기화됩니다. 일부 백엔드의 경우 모델이 첫 번째 추론 요청(또는 처음 몇 개의 추론 요청)을 수신할 때까지 이 초기화의 일부 또는 전체가 지연됩니다. 결과적으로 지연된 초기화로 인해 첫 번째(몇몇) 추론 요청이 상당히 느려질 수 있습니다.
+
+이러한 초기의 느린 추론 요청을 피하기 위해 Triton은 첫 번째 추론 요청이 수신되기 전에 완전히 초기화되도록 모델을 "워밍업"할 수 있는 구성 옵션을 제공합니다. ModelWarmup 속성이 모델 구성에 정의되면 Triton은 모델 워밍업이 완료될 때까지 모델을 추론할 준비 상태(READY)로 표시하지 않습니다.
+
+모델 구성 ModelWarmup은 모델의 워밍업 설정을 지정하는 데 사용됩니다. 설정은 Triton이 각 모델 인스턴스를 워밍업하기 위해 생성할 일련의 추론 요청을 정의합니다. 모델 인스턴스는 요청을 성공적으로 완료한 경우에만 제공됩니다. 모델 워밍업의 효과는 프레임워크 백엔드에 따라 다르며 이로 인해 Triton이 모델 업데이트에 덜 반응하게 됩니다. 따라서 사용자는 자신의 필요에 맞는 구성을 실험하고 선택해야 합니다. 현재 사용 가능한 설정은 protobuf 설명서를 참조 가능합니다.
+
+### Response Cache
+
+모델 구성 [response\_cache](https://github.com/triton-inference-server/server/blob/main/docs/response\_cache.md) 섹션에는 이 모델에 대한 응답 캐시를 활성화하는 데 사용되는 enable Boolean 설정 값이 있습니다. 모델 구성에서 캐시를 활성화하는 것 외에도 서버를 시작할 때 0이 아닌 --response-cache-byte-size를 설정해야 합니다.
+
+```
+response_cache {
+  enable: True
+}
+```
