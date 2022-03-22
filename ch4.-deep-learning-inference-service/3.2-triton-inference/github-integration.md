@@ -165,7 +165,7 @@ $ curl -v localhost:8000/v2/health/ready
 
 ### Triton 테스트
 
-Triton 은 클라이언트 사이드에서 다양한 테스트를 위한 도커 이미지를 이미 제공하고 있습니다. 이를 통해 위에서 실행한 tritonserver 에서 Image Classification 모델에 대해 Inference 테스트를 진행합니다. 먼저 21.02 버전과 동일한 nvcr.io/nvidia/tritonserver:20.12-py3-sdk 도커 이미지를 pull 합니다.
+Triton 은 [클라이언트](https://github.com/triton-inference-server/client/blob/main/src/python/examples/image\_client.py) 사이드에서 다양한 테스트를 위한 도커 이미지를 이미 제공하고 있습니다. 이를 통해 위에서 실행한 tritonserver 에서 Image Classification 모델에 대해 Inference 테스트를 진행합니다. 먼저 21.02 버전과 동일한 nvcr.io/nvidia/tritonserver:20.12-py3-sdk 도커 이미지를 pull 합니다.
 
 ```
 $ docker pull nvcr.io/nvidia/tritonserver:21.02-py3-sdk
@@ -183,6 +183,18 @@ densenet\_onnx 모델에 대해 /workspace/image/mug.jpg 샘플 이미지를 통
 
 ```
 $ /workspace/install/bin/image_client -m densenet_onnx -c 3 -s INCEPTION /workspace/images/mug.jpg
+```
+
+image\_client 옵션
+
+* \-m (--mode--name): 모델 이름
+* \-x (--model-version): 모델 버전 (default: Latest Version)
+* \-c  (--classes): 추론 결과의 클래스 수 (default: 1)
+* \-s (--scaling): 이미지 픽셀에 적용하기 위한 스케일링 타입 (NONE\<default>, INCEPTION, VGG)
+* \-u (--url): Triton Inference Server URL (default URL: localhost:8000)
+* \-i (--protocol): Triton Serer 와 통신하기 위한 프로토콜 (HTTP\<default>/gRPC)
+
+```
 Request 0, batch size 1
 Image '/workspace/images/mug.jpg':
     15.346230 (504) = COFFEE MUG
