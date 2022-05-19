@@ -1,2 +1,0 @@
-# Azure ARC enabled Kubernetes
-
