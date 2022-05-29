@@ -161,7 +161,7 @@ Concurrency,Inferences/Second,Client Send,Network+Server Send/Recv,Server Queue,
 
 perf.csv 파일의 결과를 엑셀에서 copy & paste 하여 Throughput & Latency 관계를 차트로 표현 가능합니다. 차트를 분석해보면 동접이 2개 부터 Throughput (Inference / Second) 값이 114 근처로 Saturation 되고, 그 이후 동접이 증가하더라도 Latency 만 증가할뿐 Throughput 이 증가하지 않는 현상을 확인할 수 있습니다.
 
-![](<../../.gitbook/assets/스크린샷 2022-05-18 오후 11.17.07 (1).png>)
+![](<../../.gitbook/assets/스크린샷 2022-05-18 오후 11.17.07 (1).png>)
 
 
 

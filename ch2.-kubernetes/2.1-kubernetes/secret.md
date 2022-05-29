@@ -1,2 +1,6 @@
-# Secret
+# Configuration
+
+configmap
+
+secret
 
