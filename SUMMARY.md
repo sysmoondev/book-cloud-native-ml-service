@@ -75,14 +75,11 @@
 * [4.3 모델 성능 최적화](ch4.-deep-learning-inference-service/4.3/README.md)
   * [Model Analyzer](ch4.-deep-learning-inference-service/4.3/model-analyzer/README.md)
     * [Installation](ch4.-deep-learning-inference-service/4.3/model-analyzer/installation.md)
-  * [Performance Analyzer](ch4.-deep-learning-inference-service/4.3/performance-analyzer.md)
+  * [Performance Analyzer](ch4.-deep-learning-inference-service/3.2-triton-inference/undefined-3/performance-analyzer.md)
 * [4.4 추론 서비스 (/w gRPC)](ch4.-deep-learning-inference-service/3.5-grpc/README.md)
   * [Introduction of gRPC Protocol](ch4.-deep-learning-inference-service/3.5-grpc/grpc.md)
   * [Ingress Gateway for gRPC](ch4.-deep-learning-inference-service/3.5-grpc/grpc-ingress-gateway.md)
   * [gRPC Gateway for RESTAPI](ch4.-deep-learning-inference-service/3.5-grpc/restful-api-grpc-gateway.md)
-* [4.5 DALI Backend](ch4.-deep-learning-inference-service/4.5-dali-backend/README.md)
-  * [DALI Backend 소개](ch4.-deep-learning-inference-service/4.5-dali-backend/dali-backend.md)
-  * [DALI backend 예제 (/w Densenet)](ch4.-deep-learning-inference-service/4.5-dali-backend/dali-backend-w-densenet.md)
 
 ## CH5.Deploy
 

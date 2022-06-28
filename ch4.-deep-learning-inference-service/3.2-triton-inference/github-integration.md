@@ -31,14 +31,14 @@ nvcr.io/nvidia/tritonserver 20.12-py3 73b851354265 14 months ago 12.4GB
 
 ### Triton 실행
 
-Triton은 GPU 뿐만 아니라 CPU 환경에서도 Inferencing을 성능을 최적화하여 서비스를 제공합니다. 동일한 Triton 도커 이미지를 활용해서 테스트가 가능합니다.
+Triton은 GPU 뿐만 아니라 CPU 환경에서도 Inferencing 성능을 최적화하여 서비스를 제공합니다. 동일한 Triton 도커 이미지를 활용해서 테스트가 가능합니다.
 
 #### Run on System with GPUs
 
 Triton Docker 이미지를 이용하여 GPU 모드로 다음과 같이 실행 가능합니다. 사전 단계에서 Nvidia Container Toolkit 을 설치했기 때문에 Container 안에 있는 Application 에서 CUDA Driver 를 통해 Local Host 의 GPU 자원을 접근하여 사용 가능합니다.&#x20;
 
 ```
-docker run --gpus=1 --rm -p8000:8000 -p8001:8001 -p8002:8002 -v/home/vpsdev/server/docs/examples/model_repository:/models nvcr.io/nvidia/tritonserver:22.02-py3 tritonserver --model-repository=/models입력된 파라미터를 살펴보면 다음과 같습니다.
+docker run --gpus=1 --rm -p8000:8000 -p8001:8001 -p8002:8002 -v/home/vpsdev/server/docs/examples/model_repository:/models nvcr.io/nvidia/tritonserver:22.02-py3 tritonserver --model-repository=/models
 ```
 
 **GPU 옵션**&#x20;

@@ -12,7 +12,7 @@ Quick Start 과정에서 실행한 Triton Server 를 대상으로 Perf Analyzer 
 docker run -it --rm --net=host nvcr.io/nvidia/tritonserver:22.02-py3-sdk
 ```
 
-perf_analyzer 실행시, 성능 실험 대상모델은 inception\_graphdef 을 설정하고, percentile=95 백분위에 해당하는 Latency 값을 사용하여 추론 성능을 최적화 합니다._
+perf\__analyzer 실행시, 성능 실험 대상모델은 inception\_graphdef 모델로 설정하고, percentile=95 백분위에 해당하는 Latency 값을 사용하여 추론 성능을 최적화 합니다._
 
 ```
 $ perf_analyzer -m inception_graphdef --percentile=95
@@ -43,7 +43,7 @@ Concurrency: 1, throughput: 69.6 infer/sec, latency 19673 usec
 
 ### 동접 요청
 
-기본적으로 perf\_analyzer는 모델에서 가능한 가장 낮은 부하를 주입하기 위해 기본적으로 동접수를 1개로 설정하여 모델의 대기 시간과 처리량을 측정합니다. 이를 위해 perf\_analyzer는 하나의 추론 요청을 Triton에 보내고 응답을 기다립니다. 해당 응답이 수신되면 perf\_analyzer는 즉시 다른 요청을 보내고 측정 기간 동안 이 프로세스를 반복합니다.
+perf\_analyzer는 모델에서 가능한 가장 낮은 부하를 주입하기 위해 기본적으로 동접 수를 1개로 설정하여 모델의 대기 시간과 처리량을 측정합니다. 이를 위해 perf\_analyzer는 하나의 추론 요청을 Triton에 보내고 응답을 기다립니다. 해당 응답이 수신되면 perf\_analyzer는 즉시 다른 요청을 보내고 측정 기간 동안 이 프로세스를 반복합니다.
 
 \--concurrency-range :: 옵션을 사용하면 perf\_analyzer가 요청 동시성 수준 범위에 대한 데이터를 수집하도록 할 수 있습니다. --help 옵션을 사용하여 이 옵션과 기타 옵션에 대한 전체 문서를 확인하십시오. 예를 들어 1에서 4까지의 요청 동시성 값에 대한 모델의 지연 시간 및 처리량을 보려면 다음을 수행합니다.
 
@@ -159,32 +159,20 @@ Concurrency,Inferences/Second,Client Send,Network+Server Send/Recv,Server Queue,
 2,114.8,127,969,7638,158,8525,6,0,17449,17661,17720,17800
 ```
 
-perf.csv 파일의 결과를 엑셀에서 copy & paste 하여 Throughput & Latency 관계를 차트로 표현 가능합니다. 차트를 분석해보면 동접이 2개 부터 Throughput (Inference / Second) 값이 114 근처로 Saturation 되고, 그 이후 동접이 증가하더라도 Latency 만 증가할뿐 Throughput 이 증가하지 않는 현상을 확인할 수 있습니다.
+![](<../../../.gitbook/assets/스크린샷 2022-05-18 오후 11.17.07 (1).png>)
 
-![](<../../.gitbook/assets/스크린샷 2022-05-18 오후 11.17.07 (1).png>)
+perf.csv 파일의 결과를 엑셀에서 copy & paste 하여 Throughput & Latency 관계를 차트로 표현 가능합니다. 차트를 분석해보면 동접이 2개 부터 Throughput (Inference / Second) 값이 114 근처로 Saturation 되고, 그 이후 동접이 증가하더라도 Latency 만 증가할뿐 Throughput 이 증가하지 않는 현상을 확인할 수 있습니다. 이처럼 perf\_analyzer 도구를 통해 서비스 특성에 맞는 효율적인 동접 기준을 찾아내어 Inferencing 성능을 최적화할 수 있습니다.
 
+위 예제에서는 동일한 호스트의 도커 네트워크에서 실행중인 Triton Server 를 대상으로 테스트 했기 때문에 기본 설정값 http(8000) 프로토콜과 Local Triton Server (localhost) 를 대상으로 성능 테스트를 실행했습니다. 만약 성능 테스트를 위한 Triton Server 가 외부 네트워크에 있고, grpc 프로토콜로 테스트가 필요하다면 아래 다양한 옵션을 이용하여 성능 테스트가 가능합니다.
 
+**Options**
 
-\-m 옵션은 서버의 모델명을 적어줍니다. test\_models 하위에 있는 폴더 이름을 의미합니다. -u 는 서버의 IP를 정하고 포트번호를 정해줍니다. http는 8000번 gRPC는 8001 번으로 설정하였고, 여기서는 8001번인 gRPC 프로토콜을 이용해서 접속하겠습니다. -i 는 defaults는 http고 gRPC 통신을 사용하기 위해 grpc를 넣어주었습니다. --concureency-range는 말 그대로 동시 접속을 의미하고 1:8은 동시접속 1\~8까지 테스팅을 하겠다는 의미입니다. -f 옵션은 성능 분석 결과를 csv로 저장하는 옵션입니다. 보다 자세한 옵션은 -h 옵션을 통해 확인하시기 바랍니다.
+* \-m: Triton Server 로딩된 추론 대상 모델 (ex: densenet\_onnx, inception\_graphdef)
+* \-u: Triton Server IP:Port (ex: your-triton-server.godaddy.com:8001)
+* \-i: 추로 성능 테스트를 위한 프로토콜 (http(default), grpc)
+* \--concureency-range: 동시접속 범위 (ex: 1:8  1\~8 구간에서 동접 테스트)
+* \--streaming: grpc streaming 모드 동작 (grpc 프로토콜에서만 동작)
+* \-f: 성능결과 csv 파일 저장
 
-참고로 --streaming 옵션도 있는데 gRPC 환경에서만 이 옵션을 사용할 수 있고, 거의 모든 상황에서 streaming 옵션이 더 좋은 성능을 제공하기 때문에, --streaming 옵션을 사용하시는게 좋습니다. 여기서는 streaming 옵션을 사용하지 않겠습니다.
-
-성능 측정 결과는 csv 형태로 다음과 같이 확인 가능합니다.
-
-```
-Concurrency: 1, throughput: 18.2 infer/sec, latency 55233 usec
-Concurrency: 2, throughput: 35 infer/sec, latency 56711 usec
-Concurrency: 3, throughput: 52.8 infer/sec, latency 56981 usec
-Concurrency: 4, throughput: 49.8 infer/sec, latency 80075 usec
-Concurrency: 5, throughput: 55.4 infer/sec, latency 90266 usec
-Concurrency: 6, throughput: 59.6 infer/sec, latency 101349 usec
-Concurrency: 7, throughput: 56.2 infer/sec, latency 124410 usec
-Concurrency: 8, throughput: 55.6 infer/sec, latency 143304 usec
-```
-
-EDSR 모델의 동접 성능은 throughput 값이 Saturation 되기 전 가장 높을 떄의 시점 즉, 동시접속이 6개 일때 가장 좋은 성능(infer/sec)을 보여줍니다. 그 이상은 오히려 추론 성능이 좋아지지 않고 latency 만 증가하고 있습니다. Throughput 성능(infer/sec)을 중요시하면 동시접속 6이 효율적이고 latency를 중요시하면 동시접속 3이 효율적인 적이기 때문에 서비스 특정에 맞게 조절이 필요합니다.
-
-이처럼 perf\_analyzer 도구를 통해 서비스 특성에 맞는 효율적인 동접 기준을 찾아내어 Inferencing 성능을 최적화할 수 있습니다.
-
-
+참고로 --streaming 옵션을 사용할 경우 gRPC 프로토콜을 사용할 경우만 이 옵션을 사용할 수 있고, 거의 모든 상황에서 streaming 옵션이 더 좋은 성능을 제공하기 때문에 Inferencing 서비스를 위해 gRPC 가 좀 더 네트워크 효율적인 서비스를 제공할 수 있습니다.
 
