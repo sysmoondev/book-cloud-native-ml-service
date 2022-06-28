@@ -75,6 +75,7 @@
 * [4.3 모델 성능 최적화](ch4.-deep-learning-inference-service/4.3/README.md)
   * [Performance Analyzer](ch4.-deep-learning-inference-service/3.2-triton-inference/undefined-3/performance-analyzer.md)
   * [Model Analyzer](ch4.-deep-learning-inference-service/4.3/model-analyzer/README.md)
+    * [Quick Start](ch4.-deep-learning-inference-service/4.3/model-analyzer/quick-start.md)
     * [Installation](ch4.-deep-learning-inference-service/4.3/model-analyzer/installation.md)
 * [4.4 추론 서비스 (/w gRPC)](ch4.-deep-learning-inference-service/3.5-grpc/README.md)
   * [Introduction of gRPC Protocol](ch4.-deep-learning-inference-service/3.5-grpc/grpc.md)
@@ -92,4 +93,3 @@
 ## CH6.Monitoring
 
 * [Prometheus & Grafana](ch6.monitoring/prometheus-and-grafana.md)
-* [Datadog Monitoring System](ch6.monitoring/datadog.md)
