@@ -10,7 +10,7 @@ AWS(아마존 웹 서비스), GCP(구글 클라우드 플랫폼), Azure (Microso
 
 쿠버네티스를 구성하고 있는 컴포넌트들은 다음과 같습니다.
 
-![참조 : 공식문서 https://kubernetes.io/docs/concepts/overview/components/](<../../.gitbook/assets/image (1).png>)
+![참조 : 공식문서 https://kubernetes.io/docs/concepts/overview/components/](<../../.gitbook/assets/image (1) (1).png>)
 
 
 
