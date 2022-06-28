@@ -279,22 +279,23 @@ model_analyzer 에 대한 요약 정보는 reports/summaries/add\_sub/result\_su
 * add\__sub\_config\_1: GPU 당 1개의 인스턴스와 Max Batch Size=2 로 구성_
 
 ```
-Model: add_sub # 모델명
-GPU(s): Tesla T4 # GPU 타입
-Total Available GPU Memory: 15.7 GB # 전체 사용가능한 GPU Memory
+Model: add_sub
+GPU(s): Tesla T4
+Total Available GPU Memory: 15.7 GB
 Constraint targets: None
-In 10 measurements across 5 configurations, add_sub_config_1 provides the best throughput: 7122 infer/sec.
-This is a 1% gain over the default configuration (7077 infer/sec), under the given constraints on GPU(s) Tesla T4.
-  - add_sub_config_1: 1/GPU model instances with a max batch size of 2 on platform pytorch_libtorch
-Curves corresponding to the 3 best model configuration(s) out of a total of 5 are shown in the plots.
+In 350 measurements across 37 configurations, add_sub_config_21 provides the best throughput: 50831 infer/sec.
+This is a 534% gain over the default configuration (8020 infer/sec), under the given constraints on GPU(s) Tesla T4. add_sub_config_21: 3/GPU model instances with a max batch size of 64 on platform pytorch_libtorch
+Curves corresponding to the 3 best model configuration(s) out of a total of 37 are shown in the plots.
 ```
 
 총 5개 중에서 최상위 3개에 해당하는 그래프를 그려보면 다음과 같습니다.
 
-### Throughput vs. Latecny
+### Throughput vs. Latency
 
-![](<../../../.gitbook/assets/image (3).png>)
+![](<../../../.gitbook/assets/image (2).png>)
+
+
 
 ### GPU Memory vs. Latency
 
-![](../../../.gitbook/assets/image.png)
+![](<../../../.gitbook/assets/image (3).png>)
